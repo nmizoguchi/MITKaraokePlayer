@@ -18,12 +18,12 @@ public class SequencePlayerTest {
         SequencePlayer player;
         try {
 
-            // Create a new player, with 140 beats per minute, 4 ticks per beat
-            // and a LyricListener that prints each lyric that it sees.
-        	// Note that there are no lyrics in piece 1 but we must still construct
-        	// a listener in order to pass it to a new SequencePlayer object.
-        	// ticks per beat should be determined by looking at greatest denominator
-        	// and the tuplets in the piece
+            /* Create a new player, with 140 beats per minute, 4 ticks per beat
+             * and a LyricListener that prints each lyric that it sees.
+        	 * Note that there are no lyrics in piece 1 but we must still construct
+        	 * a listener in order to pass it to a new SequencePlayer object.
+        	 * ticks per beat should be determined by looking at greatest denominator
+        	 * and the tuplets in the piece */
             LyricListener listener = new LyricListener() {
                 public void processLyricEvent(String text) {
                     System.out.println(text);
@@ -81,12 +81,146 @@ public class SequencePlayerTest {
     }
     
     @Test
+    public void sequencePlayer_testSample2() {
+        SequencePlayer player;
+        try {
+            /* Create a new player, with 200 beats per minute, 12 ticks per beat.
+             * Note that ticks per beat should be determined by looking at greatest
+             * denominator and the tuplets in the piece */
+            LyricListener listener = new LyricListener() {
+                public void processLyricEvent(String text) {
+                    System.out.println(text);
+                }
+            };
+            
+            player = new SequencePlayer(200, 12, listener);
+            
+            int tickPerBeat = 12;
+            int currentTick = 0;
+            
+            /* Measure 1
+             * [^F/2e/2] [F/2e/2] z/2 [F/2e/2] z/2 [F/2c/2] [Fe] | */
+            player.addNote(new Pitch('F').transpose(1).toMidiNote(), currentTick, tickPerBeat/2);
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('F').transpose(1).toMidiNote(), currentTick, tickPerBeat/2);
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            currentTick += tickPerBeat/2; // rest
+            
+            player.addNote(new Pitch('F').transpose(1).toMidiNote(), currentTick, tickPerBeat/2);
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            currentTick += tickPerBeat/2; // rest
+            
+            player.addNote(new Pitch('F').transpose(1).toMidiNote(), currentTick, tickPerBeat/2);
+            player.addNote(new Pitch('C').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('F').transpose(1).toMidiNote(), currentTick, tickPerBeat);
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            /* Measure 2
+             * [GBg] z G z | */
+            player.addNote(new Pitch('G').toMidiNote(), currentTick, tickPerBeat);
+            player.addNote(new Pitch('B').toMidiNote(), currentTick, tickPerBeat);
+            player.addNote(new Pitch('G').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            currentTick += tickPerBeat; // rest
+            
+            player.addNote(new Pitch('G').toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            currentTick += tickPerBeat; // rest
+            
+            /* Measure 3
+             * c3/2 G/2 z E | */
+            player.addNote(new Pitch('C').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat*3/2);
+            currentTick += tickPerBeat*3/2;
+            
+            player.addNote(new Pitch('G').toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            currentTick += tickPerBeat; // rest
+            
+            player.addNote(new Pitch('E').toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            /* Measure 4
+             * E/2 A B _B/2 A | */
+            player.addNote(new Pitch('E').toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('A').toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            player.addNote(new Pitch('B').toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            player.addNote(new Pitch('B').transpose(-1).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('A').toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            /* Measure 5
+             * (Geg a f/2 g/2 | */
+            player.addNote(new Pitch('G').toMidiNote(), currentTick, tickPerBeat*2/3);
+            currentTick += tickPerBeat*2/3;
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat*2/3);
+            currentTick += tickPerBeat*2/3;
+            player.addNote(new Pitch('G').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat*2/3);
+            currentTick += tickPerBeat*2/3;
+            
+            player.addNote(new Pitch('A').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            player.addNote(new Pitch('F').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('G').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            /* Measure 6
+             * z/2 e c/2 d/2 B3/4 z3/4 || */
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('E').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat);
+            currentTick += tickPerBeat;
+            
+            player.addNote(new Pitch('C').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('D').transpose(Pitch.OCTAVE).toMidiNote(), currentTick, tickPerBeat/2);
+            currentTick += tickPerBeat/2;
+            
+            player.addNote(new Pitch('B').toMidiNote(), currentTick, tickPerBeat*3/4);
+            currentTick += tickPerBeat*3/4;
+            
+            currentTick += tickPerBeat*3/4; // rest
+            
+            // play!
+            player.play();
+
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
     public void sequencePlayer_testSample3() {
     	SequencePlayer player;
         try {
 
-            // Create a new player, with 100 beats per minute, 1 ticks per beat
-            // and a LyricListener that prints each lyric that it sees.
+            /* Create a new player, with 100 beats per minute, 1 ticks per beat
+             * and a LyricListener that prints each lyric that it sees. */
             LyricListener listener = new LyricListener() {
                 public void processLyricEvent(String text) {
                     System.out.println(text);
