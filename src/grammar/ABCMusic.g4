@@ -43,32 +43,46 @@ package grammar;
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
  */
-DIGIT : [0-9];
-NOTE: [A-Ga-g];
-DURATION_MULTIPLIER : DIGIT* ['/' DIGIT*] ;
-DURATION_MULTIPLIER_STRICT : DIGIT+ '/' DIGIT+ ;
-WHITESPACE : [ \t]+ -> skip ;
-ENDOFLINE : \r;
-LINEFEED : \n;
-REPEAT_1 : '[1';
-REPEAT_2 : '[2';
-REST :  'z';
-LYRIC_TEXT : 'w:' [A-Za-z';
-ACCIDENTAL : '^^' | '^' | '_' | '__' | '=';
-OCTAVE : [',];
-EQUALS: '=';
-FIELD: ('X:' | 'T:' | 'C:' | 'K:' | 'L:' | 'M:' | 'Q:' )  TEXT;
-
+TABS_CRETURNS : [\t\r]+ -> skip ;
+LOWERCASE_B : 'b';
+LOWERCASE_M : 'm';
+LOWERCASE_Z : 'z';
+CAPITAL_C : 'C';
+A_THROUGH_G: [A-Ga-g];
+OTHER_LETTER : [H-Zh-y.!];
+TILDE: '~';
+COMMENT_BEGIN: '%';
+FIELD_X: 'X:';
+FIELD_T: 'T:';
+FIELD_C: 'C:';
+FIELD_Q: 'Q:';
+FIELD_K: 'K:';
+FIELD_L: 'L:';
+FIELD_M: 'M:';
+FIELD_V: 'V:';
+FIELD_W: 'w:';
+NUMBER: [0-9]+;
+NEWLINE: '\n';
+SPACE: ' ';
+SLASH : '/';
+EQUALS : '=' ;
+NTH_REPEAT : '[1' | '[2';
+BARLINE : '|' | '||' | '[|' | '|]' | ':|' | '|:';
+STAR: '*';
+HYPHEN: '-';
+HASHTAG: '#';
+UNDERSCORE : '_';
+COMMA : ',';
+CARET: '^';
+APOSTROPHE : '\'';
+TUPLET_BEGIN_2 : '(2';
+TUPLET_BEGIN_3 : '(3';
+TUPLET_BEGIN_4 : '(4';
+PARENTHESIS_OPEN: '(';
+PARENTHESIS_CLOSE: ')';
 SQ_BRACKET_OPEN: '[';
 SQ_BRACKET_CLOSE: ']';
-LYRICAL_ELEMENT: ("+" | "-" | "_" | "*" | "~" | "\-" | "|" | TEXT);
-
-BARLINE: "|" | "||" | "[|" | "|]" | ":|" | "|:";
-
-KEYACCIDENTAL: [#b=];
-MODEMINOR: 'm';
-METER_C: ('C' | 'C|');
-TEXT: [A-Z a-z0-9./=']+;
+SLASH_HYPHEN : '\-';
 
 
 /*
@@ -82,4 +96,65 @@ TEXT: [A-Z a-z0-9./=']+;
  * For more information, see
  * http://www.antlr.org/wiki/display/ANTLR4/Parser+Rules#ParserRules-StartRulesandEOF
  */
-line     : PLUS EOF;
+line : abc_tune EOF;
+abc_tune : abc_header abc_music ;
+abc_header : field_number comment* field_title other_fields* field_key ;
+
+field_number : FIELD_X NUMBER end_of_line;
+field_title : FIELD_T valid_text_with_number end_of_line;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | comment;
+field_composer : FIELD_C valid_text_with_number end_of_line;
+field_default_length : FIELD_L note_length_strict end_of_line;
+field_meter : FIELD_M meter end_of_line;
+field_tempo : FIELD_Q tempo end_of_line;
+field_voice : FIELD_V valid_text_with_number end_of_line;
+field_key : FIELD_K key end_of_line;
+
+
+key : keynote mode_minor?;
+keynote : A_THROUGH_G key_accidental?;
+key_accidental : HASHTAG | LOWERCASE_B;
+mode_minor : LOWERCASE_M;
+
+meter : (CAPITAL_C BARLINE?)| note_length_strict;
+tempo : note_length_strict EQUALS NUMBER;
+
+
+abc_music : abc_line+;
+abc_line : element+ NEWLINE (lyric NEWLINE)? | mid_tune_field | comment;
+element : note_element | tuplet_element | BARLINE | NTH_REPEAT | SPACE; 
+
+note_element : note | multi_note;
+
+note : note_or_rest note_length?;
+note_or_rest : pitch | rest;
+pitch : accidental? basenote octave?;
+octave : APOSTROPHE+ | COMMA+;
+note_length : NUMBER? SLASH NUMBER? | NUMBER;
+note_length_strict : NUMBER SLASH NUMBER;
+
+
+basenote : valid_note;
+
+rest : LOWERCASE_Z;
+
+tuplet_element : TUPLET_BEGIN_2 note_element note_element | TUPLET_BEGIN_3 note_element note_element note_element | TUPLET_BEGIN_4 note_element note_element note_element note_element;
+
+multi_note : SQ_BRACKET_OPEN note+ SQ_BRACKET_CLOSE;
+
+mid_tune_field : field_voice;
+
+comment : COMMENT_BEGIN valid_text_with_number NEWLINE;
+end_of_line : comment | NEWLINE;
+
+lyric : FIELD_W lyrical_element*;
+lyrical_element :  SPACE+ | HYPHEN | UNDERSCORE | STAR | TILDE | SLASH_HYPHEN | BARLINE | lyric_text;
+lyric_text : (valid_letter | NUMBER | COMMA)+;
+
+valid_text_with_number: (valid_letter | APOSTROPHE | COMMA | HYPHEN | UNDERSCORE |  PARENTHESIS_OPEN | PARENTHESIS_CLOSE | NUMBER | SPACE)+;
+
+valid_letter : OTHER_LETTER | A_THROUGH_G | LOWERCASE_B | LOWERCASE_M | LOWERCASE_Z | CAPITAL_C ;
+
+valid_note : A_THROUGH_G | LOWERCASE_B | CAPITAL_C;
+
+accidental : CARET | CARET CARET | UNDERSCORE | UNDERSCORE UNDERSCORE | EQUALS ;
