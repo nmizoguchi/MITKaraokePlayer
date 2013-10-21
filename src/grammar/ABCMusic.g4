@@ -43,7 +43,32 @@ package grammar;
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
  */
-PLUS     : '+';
+DIGIT : [0-9];
+NOTE: [A-Ga-g];
+DURATION_MULTIPLIER : DIGIT* ['/' DIGIT*] ;
+DURATION_MULTIPLIER_STRICT : DIGIT+ '/' DIGIT+ ;
+WHITESPACE : [ \t]+ -> skip ;
+ENDOFLINE : \r;
+LINEFEED : \n;
+REPEAT_1 : '[1';
+REPEAT_2 : '[2';
+REST :  'z';
+LYRIC_TEXT : 'w:' [A-Za-z';
+ACCIDENTAL : '^^' | '^' | '_' | '__' | '=';
+OCTAVE : [',];
+EQUALS: '=';
+FIELD: ('X:' | 'T:' | 'C:' | 'K:' | 'L:' | 'M:' | 'Q:' )  TEXT;
+
+SQ_BRACKET_OPEN: '[';
+SQ_BRACKET_CLOSE: ']';
+LYRICAL_ELEMENT: ("+" | "-" | "_" | "*" | "~" | "\-" | "|" | TEXT);
+
+BARLINE: "|" | "||" | "[|" | "|]" | ":|" | "|:";
+
+KEYACCIDENTAL: [#b=];
+MODEMINOR: 'm';
+METER_C: ('C' | 'C|');
+TEXT: [A-Z a-z0-9./=']+;
 
 
 /*
