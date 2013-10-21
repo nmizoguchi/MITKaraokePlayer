@@ -47,12 +47,13 @@ public class LexerTest {
         verifyLexer("A2 B C",new String[] {"A", "2", " ", "B", " ", "C"}); 
         
         // Duplets/Triplets/Quadriplets
-        verifyLexer("(GA/2",new String[] {"(", "G", "A", "/", "2"});
-        verifyLexer("(GAb",new String[] {"(", "G", "A", "b"});
-        verifyLexer("(GAga",new String[] {"(", "G", "A", "g", "a"});
+        verifyLexer("(2GA/2",new String[] {"(2", "G", "A", "/", "2"});
+        verifyLexer("(3GAb",new String[] {"(3", "G", "A", "b"});
+        verifyLexer("(4GAga",new String[] {"(4", "G", "A", "g", "a"});
+        
         // Octaves and Accidents ( ' , ^ ^^ _ __ )
         verifyLexer("'A _b ^c^^d__f,Ff=",new String[] {"'", "A", " ", "_", "b", " ", "^",
-                                                   "c", "^^", "d", "__", "f", ",", "F", "f", "="}); 
+                                                   "c", "^", "^", "d", "_", "_", "f", ",", "F", "f", "="}); 
         verifyLexer("A B C",new String[] {"A", " ", "B", " ", "C"}); 
         
         // Chord

@@ -49,7 +49,7 @@ LOWERCASE_M : 'm';
 LOWERCASE_Z : 'z';
 CAPITAL_C : 'C';
 A_THROUGH_G: [A-Ga-g];
-OTHER_LETTER : [H-Zh-y.!];
+OTHER_LETTER : [H-Zh-y!] | '.';
 TILDE: '~';
 COMMENT_BEGIN: '%';
 FIELD_X: 'X:';
@@ -100,19 +100,19 @@ line : abc_tune EOF;
 abc_tune : abc_header abc_music ;
 abc_header : field_number comment* field_title other_fields* field_key ;
 
-field_number : FIELD_X NUMBER end_of_line;
-field_title : FIELD_T valid_text_with_number end_of_line;
+field_number : FIELD_X SPACE* NUMBER end_of_line;
+field_title : FIELD_T SPACE* valid_text_with_number end_of_line;
 other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | comment;
-field_composer : FIELD_C valid_text_with_number end_of_line;
-field_default_length : FIELD_L note_length_strict end_of_line;
-field_meter : FIELD_M meter end_of_line;
-field_tempo : FIELD_Q tempo end_of_line;
-field_voice : FIELD_V valid_text_with_number end_of_line;
-field_key : FIELD_K key end_of_line;
+field_composer : FIELD_C SPACE* valid_text_with_number end_of_line;
+field_default_length : FIELD_L SPACE* note_length_strict end_of_line;
+field_meter : FIELD_M SPACE* meter end_of_line;
+field_tempo : FIELD_Q SPACE* tempo end_of_line;
+field_voice : FIELD_V SPACE* valid_text_with_number end_of_line;
+field_key : FIELD_K SPACE* key end_of_line;
 
 
 key : keynote mode_minor?;
-keynote : A_THROUGH_G key_accidental?;
+keynote : (A_THROUGH_G | CAPITAL_C )key_accidental?;
 key_accidental : HASHTAG | LOWERCASE_B;
 mode_minor : LOWERCASE_M;
 
@@ -144,12 +144,12 @@ multi_note : SQ_BRACKET_OPEN note+ SQ_BRACKET_CLOSE;
 
 mid_tune_field : field_voice;
 
-comment : COMMENT_BEGIN valid_text_with_number NEWLINE;
+comment : COMMENT_BEGIN valid_text_with_number? NEWLINE;
 end_of_line : comment | NEWLINE;
 
 lyric : FIELD_W lyrical_element*;
 lyrical_element :  SPACE+ | HYPHEN | UNDERSCORE | STAR | TILDE | SLASH_HYPHEN | BARLINE | lyric_text;
-lyric_text : (valid_letter | NUMBER | COMMA)+;
+lyric_text : (valid_letter | NUMBER | COMMA | APOSTROPHE | PARENTHESIS_OPEN | PARENTHESIS_CLOSE)+;
 
 valid_text_with_number: (valid_letter | APOSTROPHE | COMMA | HYPHEN | UNDERSCORE |  PARENTHESIS_OPEN | PARENTHESIS_CLOSE | NUMBER | SPACE)+;
 
