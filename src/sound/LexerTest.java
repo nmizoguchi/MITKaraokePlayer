@@ -5,7 +5,6 @@ import grammar.ABCMusicLexer;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -27,18 +26,51 @@ public class LexerTest {
 //        // Test lexer
 //        verifyLexer(input, new String[] {"+"});
 //    }
+    
     @Test
-    public void testEachToken() {
-        //verifyLexer("X: 1", new String[] {"X: 1"});
-        verifyLexer("C",new String[] {"C"});
+    public void lexerTest_header() {
+        // Header
+        verifyLexer("X: 123", new String[] {"X:", " ", "123"});
+        verifyLexer("T: 9th Symphony", new String[] {"T:", " ", "9", "t", "h", " ",
+                                                    "S", "y", "m", "p", "h", "o", "n", "y"});
+        verifyLexer("Q:1/4=180", new String[] {"Q:", "1", "/", "4", "=", "180"});
+    }
+    
+    @Test
+    public void lexerTest_notes() {
+        // Single Note
+        verifyLexer("C1/16",new String[] {"C", "1", "/", "16"});
         verifyLexer("a", new String[] {"a"});
-        verifyLexer("1",new String[] {"1"});
-        verifyLexer("[A]", new String[] {"[","A", "]"});
-        verifyLexer("Nicholas Mizoguchi", new String[] {"Nicholas Mizoguchi"});
-        verifyLexer("w: A-ma-zing Grace", new String[] {"w: ", "A", "-", "ma", "-", "zing Grace"});
-//        verifyLexer("'B", new String[] {"'", "B"});
-//        verifyLexer("ABC",new String[] {"A", "B", "C"});
-//        verifyLexer("A B C",new String[] {"A", "B", "C"});
+        
+        // Multiple Notes
+        verifyLexer("GAb",new String[] {"G", "A", "b"});
+        verifyLexer("A2 B C",new String[] {"A", "2", " ", "B", " ", "C"}); 
+        
+        // Duplets/Triplets/Quadriplets
+        verifyLexer("(GA/2",new String[] {"(", "G", "A", "/", "2"});
+        verifyLexer("(GAb",new String[] {"(", "G", "A", "b"});
+        verifyLexer("(GAga",new String[] {"(", "G", "A", "g", "a"});
+        // Octaves and Accidents ( ' , ^ ^^ _ __ )
+        verifyLexer("'A _b ^c^^d__f,Ff=",new String[] {"'", "A", " ", "_", "b", " ", "^",
+                                                   "c", "^^", "d", "__", "f", ",", "F", "f", "="}); 
+        verifyLexer("A B C",new String[] {"A", " ", "B", " ", "C"}); 
+        
+        // Chord
+        verifyLexer("[AGc]", new String[] {"[","A", "G", "c", "]"});
+    }
+    
+    @Test
+    public void lexerTest_lyrics() {
+        // Lyrics
+        verifyLexer("w: *A-ma-zing, Grace",
+                    new String[] {"w:", " ", "*", "A", "-", "m", "a", "-",
+                                  "z", "i", "n", "g", ",", " ", "G", "r",
+                                  "a", "c", "e"});
+    }
+    @Test
+    public void lexerTest_voices() {
+        // Voices
+        verifyLexer("V: ABDF", new String[] {"V:"," ", "A", "B", "D", "F"});
     }
 
 
