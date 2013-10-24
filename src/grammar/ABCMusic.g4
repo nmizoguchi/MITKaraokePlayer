@@ -149,7 +149,7 @@ end_of_line : comment | NEWLINE;
 
 lyric : FIELD_W lyrical_element*;
 lyrical_element :  SPACE+ | HYPHEN | UNDERSCORE | STAR | TILDE | SLASH_HYPHEN | BARLINE | lyric_text;
-lyric_text : (valid_letter | NUMBER | COMMA | APOSTROPHE | PARENTHESIS_OPEN | PARENTHESIS_CLOSE)+;
+lyric_text : (valid_letter | NUMBER | COMMA | APOSTROPHE | PARENTHESIS_OPEN | PARENTHESIS_CLOSE | field_text)+;
 
 valid_text_with_number: (valid_letter | APOSTROPHE | COMMA | HYPHEN | UNDERSCORE |  PARENTHESIS_OPEN | PARENTHESIS_CLOSE | NUMBER | SPACE)+;
 
@@ -158,3 +158,5 @@ valid_letter : OTHER_LETTER | A_THROUGH_G | LOWERCASE_B | LOWERCASE_M | LOWERCAS
 valid_note : A_THROUGH_G | LOWERCASE_B | CAPITAL_C;
 
 accidental : CARET | CARET CARET | UNDERSCORE | UNDERSCORE UNDERSCORE | EQUALS ;
+
+field_text: FIELD_X | FIELD_T | FIELD_C | FIELD_L | FIELD_M | FIELD_Q | FIELD_V | FIELD_K;
