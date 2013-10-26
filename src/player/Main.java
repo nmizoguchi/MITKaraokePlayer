@@ -31,6 +31,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        play("sample_abc/sample3.abc");
+        try{
+            play("sample_abc/sample3.abc");
+        }
+    
+        catch(RuntimeException e) {
+            System.out.println("Invalid file.");
+            System.out.println(e.toString());
+        }
     }
 }

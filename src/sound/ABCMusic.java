@@ -19,13 +19,13 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class ABCMusic {
-    private String title;
-    private String composer;
-    private String key;
-    private List<Note> notes;
-    private List<Syllable> lyrics;
-    private int ticksPerBeat;
-    private int beatsPerMinute;
+    private  String title;
+    private  String composer;
+    private  String key;
+    private  List<Note> notes;
+    private  List<Syllable> lyrics;
+    private  int ticksPerBeat;
+    private  int beatsPerMinute;
     
     public ABCMusic(String path) throws IOException {
         // Opens file in path and get all the chars in the file
@@ -52,6 +52,9 @@ public class ABCMusic {
         ParseTreeWalker walker = new ParseTreeWalker();
         ParseTreeListener listener = new ABCMusicParseListener();
         walker.walk(listener, tree);
+        
+        // ABCMusicParseListener() has methods to get all information from the AST
+        // have to initialize all  variables
     }
     
     public String getTitle() {
