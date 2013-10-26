@@ -16,7 +16,7 @@ public class SequencePlayerTest {
     @Test
     public void sequencePlayer_testSample1() {
         SequencePlayer player;
-        try {
+        try {	
 
             /* Create a new player, with 140 beats per minute, 4 ticks per beat
              * and a LyricListener that prints each lyric that it sees.
@@ -246,6 +246,8 @@ public class SequencePlayerTest {
             player.addNote(new Pitch('B').toMidiNote(), 12, ticksPerBeat*4);
             player.addLyricEvent("How", 16);
             player.addNote(new Pitch('A').toMidiNote(), 16, ticksPerBeat*2);
+            
+            
             
             // Measure 4
             player.addLyricEvent("sweet", 18);

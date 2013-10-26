@@ -9,25 +9,25 @@ import sound.ABCMusic;
  */
 public class Main {
     /**
-     * Plays the input file using Java MIDI API and displays
-     * header information to the standard output stream.
+     * Plays the input file using Java MIDI API and displays header information to the standard
+     * output stream.
      * 
-     * (Your code should not exit the application abnormally using
-     * System.exit().)
+     * (Your code should not exit the application abnormally using System.exit().)
      * 
-     * @param file the name of input abc file
+     * @param file
+     *            the name of input abc file
      */
     public static void play(String file) {
         ABCMusic music;
-        try{
+        try {
             music = new ABCMusic(file);
-        } catch(IOException e){
-            System.out.println("File not found!");
+        } catch (IOException e) {
+            System.out.println("File "+ file +" not found!");
         }
-        
-//        SequencePlayer player = new SequencePlayer(music.getBeatsPerMinute(),
-//                                                   music.getTicksPerBeat,
-//                                                   listener);
+
+        // SequencePlayer player = new SequencePlayer(music.getBeatsPerMinute(),
+        // music.getTicksPerBeat,
+        // listener);
     }
 
     public static void main(String[] args) {
