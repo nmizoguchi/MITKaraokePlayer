@@ -121,7 +121,7 @@ tempo : note_length_strict EQUALS NUMBER;
 
 
 abc_music : abc_line+;
-abc_line : element+ NEWLINE (lyric NEWLINE)? | mid_tune_field | comment;
+abc_line : mid_tune_field? element+ NEWLINE (lyric NEWLINE)? | comment;
 element : note_element | tuplet_element | BARLINE | NTH_REPEAT | SPACE; 
 
 note_element : note | multi_note;

@@ -1,0 +1,88 @@
+**ABCMusic:
+Attributes: 	listOfSections = List<Sections>;
+	    	beatsPerMinute = int;
+	    	ticksPerBeat = int;
+		beatsPerMeasure (**numerator in meter)= int;
+		whatNoteGetsTheBeat (==1/denominator in meter)= double // e.g. 4/4 meter -> (1/4), /2 -> (1/2) -> /1 -> (1/1), /8 -> (1/8);
+		defaultNoteLength = double;
+		key = String;
+Methods:	getTicksPerBeat(): @returns ticksPerBeat
+		getBeatsPerMinute(): @returns beatsPerMinute
+		getSeqOfPreMidiNotes(): @returns List<PreMidiNote>
+		// listOfAllRawSoundUnits: List<NoteOrRest>;
+		// for section in listOfSections {
+		//	for measure in section.listOfMeasures {
+		//		for soundunit in listOfSoundUnits {
+		//			listOfAllRawSoundUnits.append(soundunit);
+		//		}
+		//	}
+		// *** 
+		// listOfPreMidiNotesCorrectTempo = applyMeterAndDefaultLength(listOfAllRawSoundUnits); // see helper method below
+		// listOfPreMidiNotesCorrectTempoAndKey = applyKey(listOfPreMidiNotesCorrectTempo);
+		// return listOfPreMidiNotesCorrectTempoAndKey;
+		getSyllables(): @returns List<Syllables>
+		// write the pseudocode here!
+Private Helper Methods:
+		// @param listOfAllRawSoundUnits the list of SoundUnits
+		// @return List<PreMidiNote>
+		applyMeterAndDefaultLength(List<NoteOrRest> listOfAllRawSoundUnits) {
+		// int tickCounter = 0;
+		// listOfPreMidiNotes = List<PreMidiNote>;
+		// for currentSoundUnit in listOfAllRawSoundUnits {
+		// 	if (currentSoundUnit instanceOf Chord) {
+		//		Chord currentChord = (Chord) currentSoundUnit;
+		//		for (i = listOfNotesInChord.length(); i = 0; i--) {
+		//			currentNote = listOfNotesInChord[i];
+		//			pitch = currentNote.pitch;
+		//			numTicks = currentNote.durationMultiplier * deafultLength / whatNoteGetsTheBeat * ticksPerBeat;
+		// 			startTick = tickCounter;
+		//			listOfPreMidiNotes.append(new PreMidiNote(pitch, startTick, numTicks));
+		//			if (i == 0) { // only triggers on the first Note in chord, which as specified determines the duration of the chord
+		//				tickCounter += numTicks;
+		//			}
+		//		}
+		//	}
+		//	else if (currentSoundUnit instanceOf Rest) {
+		//		numTicks = currentNote.durationMultiplier * deafultLength / whatNoteGetsTheBeat * ticksPerBeat;
+		//		tickCounter += numTicks;
+		//	}
+		// return listOfPreMidiNotes;
+		// }
+		applyKey(List<PreMidiNote> listOfPreMidiNotesWithoutKey) {
+		// // the example below maps from B to B flat; it would be used in the mapping to B flat for instance.
+		// listOfPreMidiNotesWithKey = List<PreMidiNote>;
+		// for note in listOfPreMidiNotesWithoutKey {
+		// 	// want to check for note values and note accidentals being equal; octave is irrelevant
+		// 	if (note.pitch.value.equals(new Pitch('B').value) && note.pitch.accidental.equals(new Pitch('B').accidental)) {
+		//		listOfPreMidiNotesWithKey.append(new PreMidiNote(new Pitch('B', -1, note.pitch.octave));
+		// 	}
+		//	else {
+		//		listOfPreMidiNotesWithKey.append(note);
+		//	}
+		// return listOfPreMidiNotesWithKey;
+
+	    
+**Section:
+Attributes:	listOfMeasures: List<Measure>;
+		
+**Measure:
+Attributes:	listOfSoundUnits: List<SoundUnit>;
+
+
+**SoundUnit (interface) = Chord + Rest
+NoteOrRest (interface) = Note + Rest
+
+**Chord:
+Attributes:	listOfNotesInChord = List<Note>;
+		syllableToSing = String;
+
+**Note:
+Attributes:	pitch = Pitch;
+		durationMultiplier = int (defaults to 1);
+**Rest: implements two interfaces, SoundUnit and NoteOrRest
+Attributes:	durationMultiplier = int (defaults to 1);
+
+**PreMidiNote: 
+Attributes:	pitch = Pitch;
+		startTick = int;
+		numTicks = int;
