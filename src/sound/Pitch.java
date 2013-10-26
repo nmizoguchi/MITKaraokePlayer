@@ -17,6 +17,7 @@ public class Pitch {
     private final int value;
     private final int accidental;
     private final int octave;
+    private final boolean hasAccidental;
 
     /*
      * Rep invariant:
@@ -41,10 +42,11 @@ public class Pitch {
         7   // G
     };
 
-    private Pitch(int value, int accidental, int octave) {
+    private Pitch(int value, int accidental, int octave, boolean hasAccidental) {
         this.value = value;
         this.accidental = accidental;
         this.octave = octave;
+        this.hasAccidental = hasAccidental;
         checkRep();
     }
 
@@ -62,6 +64,7 @@ public class Pitch {
         this.value = scale[index];
         this.accidental = 0;
         this.octave = 0;
+        this.hasAccidental = false;
         checkRep();
     }
 
@@ -77,7 +80,7 @@ public class Pitch {
      * semitone is E flat; E transposed by 1 semitone is E sharp.
      */
     public Pitch accidentalTranspose(int semitonesUp) {
-        return new Pitch(value, accidental + semitonesUp, octave);
+        return new Pitch(value, accidental + semitonesUp, octave, true);
     }
 
     /**
@@ -86,7 +89,7 @@ public class Pitch {
      * E' ; transposing E down by 1 octave produces E, .
      */
     public Pitch octaveTranspose(int octavesUp) {
-        return new Pitch(value, accidental, octave + octavesUp);
+        return new Pitch(value, accidental, octave + octavesUp, false);
     }
 
     /**
@@ -99,6 +102,7 @@ public class Pitch {
         int newValue = value + semitonesUp;
         int newOctave = octave;
         int newAccidental = accidental;
+        boolean newHasAccidental = hasAccidental;
 
         while (newValue >= OCTAVE) {
             newValue -= OCTAVE;
@@ -124,7 +128,7 @@ public class Pitch {
             }
         }
 
-        return new Pitch(newValue, newAccidental, newOctave);
+        return new Pitch(newValue, newAccidental, newOctave, newHasAccidental);
     }
 
     /**
@@ -160,12 +164,18 @@ public class Pitch {
         Pitch that = (Pitch) obj;
         return this.value == that.value
             && this.accidental == that.accidental
-            && this.octave == that.octave;
+            && this.octave == that.octave
+            && this.hasAccidental == that.hasAccidental;
     }
 
     @Override
     public int hashCode() {
-        return value + accidental;
+    	if (hasAccidental) {
+    		return -1*(value + accidental);
+    	}
+    	else {
+    		return value + accidental;
+    	}
     }
 
     /**
@@ -198,6 +208,10 @@ public class Pitch {
         while (acc > 0) {
             prefix += "^";
             acc--;
+        }
+        
+        if (hasAccidental && accidental == 0) {
+        	prefix += "=";
         }
 
         String name = valToString[v];
