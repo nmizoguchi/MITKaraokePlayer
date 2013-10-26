@@ -2,7 +2,8 @@ package player;
 
 import java.io.IOException;
 
-import sound.ABCMusic;
+import musicRepresentation.ABCMusic;
+
 
 /**
  * Main entry point of your application.
