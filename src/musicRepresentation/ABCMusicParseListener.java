@@ -1,8 +1,4 @@
-package sound;
-
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
+package musicRepresentation;
 
 import grammar.ABCMusicListener;
 import grammar.ABCMusicParser.Abc_headerContext;
@@ -48,8 +44,25 @@ import grammar.ABCMusicParser.Valid_letterContext;
 import grammar.ABCMusicParser.Valid_noteContext;
 import grammar.ABCMusicParser.Valid_text_with_numberContext;
 
+import java.util.Map;
+import java.util.Stack;
+
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 public class ABCMusicParseListener implements ABCMusicListener {
 
+    private static Stack stack = new Stack();
+    
+    public ABCHeader getHeader() {
+        return (ABCHeader)stack.pop();
+    }
+    
+    public Map<String,Voice> getVoiceMap() {
+        return (Map<String,Voice>)stack.pop();
+    }
+    
     @Override
     public void enterEveryRule(ParserRuleContext arg0) {
         // TODO Auto-generated method stub

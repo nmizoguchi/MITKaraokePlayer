@@ -7,32 +7,36 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import sound.ABCMusicParseListener;
-import sound.Syllable;
-
+/**
+ * 
+ * @author Nicholas M. Mizoguchi
+ *
+ */
 public class ABCMusic {
-    private  String title;
-    private  String composer;
-    private  String key;
-    private  List<Note> notes;
-    private  List<Syllable> lyrics;
-    private  int ticksPerBeat;
-    private  int beatsPerMinute;
+    private ABCHeader header;
+    private Map<String,Voice> voiceMap;
     
+    /**
+     * Creates a representation of an ABC file as an ABCMusic Object.
+     * @param path the .abc file to be interpreted.
+     * @throws IOException in case the path is invalid.
+     */
     public ABCMusic(String path) throws IOException {
         // Opens file in path and get all the chars in the file
         String input = readFile(path);
+        
+        /* Runs the parser in the stream of bytes received  *
+         * from the file in path.                           */
         
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);
@@ -48,8 +52,8 @@ public class ABCMusic {
         ParseTree tree;
         tree = parser.line(); // "line" is the starter rule.
         
-        // DRAW THE THREE
-        ((RuleContext)tree).inspect(parser);
+//        // DRAW THE THREE
+//        ((RuleContext)tree).inspect(parser);
         
         // Walk the tree with the listener.
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -58,38 +62,45 @@ public class ABCMusic {
         
         // ABCMusicParseListener() has methods to get all information from the AST
         // have to initialize all  variables
+        this.voiceMap = ((ABCMusicParseListener)listener).getVoiceMap();
+        this.header = ((ABCMusicParseListener)listener).getHeader();
     }
     
+    /**
+     * Transform the representation of the .abc file into information to be passed
+     * to a SequencePlayer. It goes through all voices, returning the representation
+     * of each note as a MidiNoteRepresentation in the list.
+     * @return an instance of SequencerInformation
+     */
+    public SequencerInformation constructSequencerInformation() {
+        return null;
+    }
+    
+    
+    /**
+     * Gives the Title of the piece of music ABCHeader represents
+     * @return the title String itself.
+     */
     public String getTitle() {
-        return title;
+        return header.getTitle();
     }
+    
 
+    /**
+     * Gives the Composer of the piece of music ABCHeader represents
+     * @return the composer String itself.
+     */
     public String getComposer() {
-        return composer;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public int getTicksPerBeat() {
-        return ticksPerBeat;
-    }
-
-    public int getBeatsPerMinute() {
-        return beatsPerMinute;
-    }
-    
-    public List<Note> getNotes() {
-        // Should be creating a copy!
-        return notes;
-    }
-    
-    public List<Syllable> getLyrics() {
-        return lyrics;
+        return header.getComposer();
     }
     
     
+    /**
+     * Opens a file in <code>path</code>, giving a String of the file.
+     * @param path The path where the file to be read is located.
+     * @return A string with all the bytes in the file located in <code>path</code>.
+     * @throws IOException if file not found, or any other issue with the file.
+     */
     private String readFile(String path) throws IOException {
         // Read file
         File file = new File(path);
