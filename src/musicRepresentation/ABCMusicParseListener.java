@@ -218,8 +218,34 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitNote_length(Note_lengthContext ctx) {
-        // TODO Auto-generated method stub
-        
+        // note_length : NUMBER? SLASH NUMBER? | NUMBER;
+        double num = 1;
+        double den = 1;
+
+        if (ctx.getChildCount() == 1) {
+            // we can have a number or a bar
+            switch (ctx.start.getType()) {
+            case ABCMusicLexer.NUMBER:
+                num = 1;
+                break;
+            case ABCMusicLexer.SLASH:
+                den = 2;
+                break;
+            }
+        } else if (ctx.getChildCount() == 3) {
+            // we must have a number, a bar, and a number
+            num = Double.parseDouble(ctx.getChild(0).getText());
+            den = Double.parseDouble(ctx.getChild(2).getText());
+        } else {
+            // we can only have slash number or number slash here
+            if (ctx.getChild(0).getText().equals("/")) {
+                den = Double.parseDouble(ctx.getChild(1).getText());
+            } else {
+                num = Double.parseDouble(ctx.getChild(0).getText());
+            }
+        }
+
+        stack.push(num / den);
     }
 
     @Override
@@ -577,8 +603,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitRest(RestContext ctx) {
-        // TODO Auto-generated method stub
-        
+        //rest : LOWERCASE_Z;
+        stack.push('z');
     }
 
     @Override
@@ -632,7 +658,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
         if (accidental == 8)
             accidental = 0;
 
-        Pitch p = new Pitch(c, accidental, octave, hasAccidental);
+        Pitch p = new Pitch(Character.toUpperCase(c), accidental, octave, hasAccidental);
+        System.out.println(p.toString());
         stack.push(p);
     }
 
