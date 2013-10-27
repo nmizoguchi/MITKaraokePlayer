@@ -14,13 +14,16 @@ public class ABCHeader {
     private double defaultNoteLength;
     private KeySignature keySignature;
     
-    public ABCHeader(int beatsPerMinute, int ticksPerBeat, double whatNoteGetsTheBeat,
-                        double defaultNoteLength, String keySignature) {
+    public ABCHeader(String title, String composer,int beatsPerMinute,
+                        int ticksPerBeat, double whatNoteGetsTheBeat,
+                        double defaultNoteLength, String key) {
+        this.title = title;
+        this.composer = composer;
         this.beatsPerMinute = beatsPerMinute;
         this.ticksPerBeat = ticksPerBeat;
         this.whatNoteGetsTheBeat = whatNoteGetsTheBeat;
         this.defaultNoteLength = defaultNoteLength;
-        this.keySignature = new KeySignature(keySignature);
+        this.keySignature = new KeySignature(key);
     }
     
     /**
@@ -39,6 +42,49 @@ public class ABCHeader {
      */
     public int getTicksPerBeat() {
         return ticksPerBeat;
+    }
+
+    /**
+     * Gives the Title of the piece of music ABCHeader represents
+     * @return the title String itself.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Gives the Composer of the piece of music ABCHeader represents
+     * @return the composer String itself.
+     */
+    public String getComposer() {
+        return composer;
+    }
+    
+    /**
+     * Gives the fraction that represents what note gets the time of a beat.
+     * For instance, a quarter note is represented by 0.25
+     * @return a double that represents the fraction.
+     */
+    public double getWhatNoteGetsTheBeat() {
+        return whatNoteGetsTheBeat;
+    }
+
+    /**
+     * Gives the default note length of the piece. It is represented as a double.
+     * For instance, a quarter note is represented by 0.25
+     * @return a double that represents the default note length.
+     */
+    public double getDefaultNoteLength() {
+        return defaultNoteLength;
+    }
+
+    /**
+     * Gives an object that represents the key signature.
+     * @return KeySignature object that represents the signature of the piece.
+     */
+    public KeySignature getKeySignature() {
+        // KeySignature is immutable. OK to give the pointer.
+        return keySignature;
     }
 
 }
