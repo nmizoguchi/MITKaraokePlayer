@@ -1,5 +1,6 @@
 package musicRepresentation;
 
+import grammar.ABCMusicLexer;
 import grammar.ABCMusicListener;
 import grammar.ABCMusicParser.Abc_headerContext;
 import grammar.ABCMusicParser.Abc_lineContext;
@@ -51,9 +52,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import sound.Pitch;
+
 public class ABCMusicParseListener implements ABCMusicListener {
 
-    private static Stack stack = new Stack();
+    private static Stack<Object> stack = new Stack<Object>();
     
     public ABCHeader getHeader() {
         return (ABCHeader)stack.pop();
@@ -203,8 +206,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitBasenote(BasenoteContext ctx) {
-        // TODO Auto-generated method stub
-        
+        // basenote : valid_note;
+        // WE DON'T NEED TO DO ANYTHING HERE!!!!!!!
     }
 
     @Override
@@ -227,7 +230,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitValid_note(Valid_noteContext ctx) {
-        // TODO Auto-generated method stub
+        // valid_note : A_THROUGH_G | LOWERCASE_B | CAPITAL_C;
+        stack.push(new Character(ctx.start.getText().charAt(0)));
         
     }
 
@@ -275,8 +279,32 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitAccidental(AccidentalContext ctx) {
-        // TODO Auto-generated method stub
+        // Notice that if we find an accidentalValue EQUALS, in order to indicate to the exitpitch
+        // method that this is being neutrally accented, we pass an accidental value of 8!!!!!!
         
+        
+        // accidental : CARET | CARET CARET | UNDERSCORE | UNDERSCORE UNDERSCORE | EQUALS ;
+        int accidentalValue = 0;
+     
+        // Creating a new int according to the node we are visiting.
+        if (ctx.getChildCount() == 1) {
+            switch (ctx.start.getType()) {
+            case ABCMusicLexer.CARET:
+                accidentalValue = 1;
+                break;
+            case ABCMusicLexer.UNDERSCORE:
+                accidentalValue = -1;
+                break;
+            case ABCMusicLexer.EQUALS:
+                accidentalValue = 8;
+                break;
+            }
+        } else if (ctx.CARET() != null) {
+            accidentalValue = 2;
+        } else if (ctx.UNDERSCORE() != null) {
+            accidentalValue = -2;
+        }
+        stack.push(accidentalValue);
     }
 
     @Override
@@ -443,7 +471,17 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitOctave(OctaveContext ctx) {
-        // TODO Auto-generated method stub
+        //TODO: TEST IF IT CREATES A LIST OF COMMA/APOSTROPHE IF WE HAVE ONLY ONE OF THESE!
+        // octave : APOSTROPHE+ | COMMA+;
+        int octaveValue = 0;
+        
+        // Creating a new int according to the node we are visiting.
+        if (ctx.COMMA() != null) {
+            octaveValue = ctx.COMMA().size();
+        } else if (ctx.APOSTROPHE() != null) {
+            octaveValue = ctx.APOSTROPHE().size();
+        }
+        stack.push(octaveValue);
         
     }
 
@@ -575,8 +613,27 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitPitch(PitchContext ctx) {
-        // TODO Auto-generated method stub
+        // Remember that if it hass a natural accent, the accidental value will be 8.
+
+        // pitch : accidental? basenote octave?;
+
+        int octave = (ctx.octave() != null) ? (int) stack.pop() : 0;
+        char c = (char) stack.pop();
+        int accidental = (ctx.accidental() != null) ? (int) stack.pop() : 0;
+
+        // checking if has an accidental (remember that at this point, the neutral would be an 8)
+        boolean hasAccidental = (accidental != 0);
         
+        // if lowercase, we need to raise one octave!
+        if(Character.isLowerCase(c))
+            octave++;
+
+        // reverting our "neutral-key-accidental-hack" by assigning an accidental of 0 to the value.
+        if (accidental == 8)
+            accidental = 0;
+
+        Pitch p = new Pitch(c, accidental, octave, hasAccidental);
+        stack.push(p);
     }
 
     @Override
