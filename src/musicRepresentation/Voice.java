@@ -6,7 +6,7 @@ import sound.Pitch;
 
 /**
  * The Voice class represents a Voice in an abc music file. Voice is composed of
- * List<Measure> and is identified with by a voiceName. A Voice is in charge of
+ * List<Measure> and is identified by a voiceName. A Voice is in charge of
  * handling the repeats that occur within its measures.
  * 
  * @author Eric
@@ -54,12 +54,30 @@ public class Voice {
     }
     
 	/**
+	 * Returns a new Voice object whose listOfMeasures has been corrected such
+	 * that all repeats are handled correctly. 
+	 * 
+	 * Repeats are handled as follows:
+	 * 
+	 * Barlines "|" do not affect repeats. 
+	 * Double Barlines "||" do not affect repeats.
+	 * Begin Repeat "|:" marks the beginning of a repeated section.
+	 * End Repeat ":|" makes the piece repeat from either a Begin Repeat, the
+	 * 		beginning of the piece, or End Bold Double Bar Lines, whichever appears closest
+	 * Begin Bold Double Barlines "[|" do not affect repeats.
+	 * End Bold Double Barlines "|]" marks the beginning of the next section 
+	 * 		(i.e repeats begin from the measure following the one ending with this marker)
+	 * 
 	 * @return the Voice Object with its listOfMeasures corrected such that
 	 *         repeats are handled correctly
 	 */
     Voice fixRepeats() {
-        // TODO: correct the listOfMeasures by handling the repeats!!
-        return this;
+        List<Measure> newListOfMeasures = new ArrayList<Measure>();
+        int measureToRepeatFrom = 1; // repeats to the beginning of piece unless otherwise noted
+        
+        for (Measure m: listOfMeasures) {
+        	m.
+        }
     }
     
     @Override
