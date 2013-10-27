@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a Measure.
+ * Represents a Measure. Measure is mutable.
  * 
  * @author Victor
  * 
@@ -89,6 +89,15 @@ public class Measure {
      */
     String getEndingBarLine() {
         return endingBarLine;
+    }
+    
+    /**
+     * Sets the endingBarLine to 
+     * 
+     * @param newEndingBarLine
+     */
+    void setEndingBarLine(String newEndingBarLine) {
+    	endingBarLine = newEndingBarLine;
     }
 
     /**
