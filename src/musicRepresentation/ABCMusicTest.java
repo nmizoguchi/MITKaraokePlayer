@@ -9,7 +9,6 @@ public class ABCMusicTest {
     @Test
     public void testConstructSequencerInformation_BPMTransformation() throws IOException {
         // TODO: We need the parser working!
-        ABCMusic music = new ABCMusic("sample_abc/fur_elise.abc");
+        ABCMusic music = new ABCMusic("sample_abc/piece3.abc");
     }
-
 }
