@@ -150,7 +150,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Bb") || keyName.equals("G")) {
             return;
         }
         
@@ -163,7 +163,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Eb") || keyName.equals("Cm")) {
             return;
         }
         
@@ -176,7 +176,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Ab") || keyName.equals("Fm")) {
             return;
         }
         
@@ -189,7 +189,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Db") || keyName.equals("Bbm")) {
             return;
         }
         
@@ -202,7 +202,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Gb") || keyName.equals("Ebm")) {
             return;
         }
         
@@ -215,7 +215,7 @@ public class KeySignature {
             pitchMap.put(accidentalPitch.octaveTranspose(i),
                         accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
         }
-        if( keyName.equals("F") || keyName.equals("D")) {
+        if( keyName.equals("Cb") || keyName.equals("Abm")) {
             return;
         }
         // More enharmonics? http://hymns.reactor-core.org/keysignatures.html
