@@ -17,7 +17,7 @@ import sound.Pitch;
 public class Measure {
     private List<SoundUnit> listOfSoundUnits;
     private String beginningBarLine;
-    private final String endingBarLine;
+    private String endingBarLine;
     
 
     /**

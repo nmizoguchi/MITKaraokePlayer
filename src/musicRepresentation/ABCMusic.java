@@ -89,10 +89,6 @@ public class ABCMusic {
                 allRawSoundUnits.addAll(m.getListOfSoundUnits());
             }
         }
-        
-        preMidiNotesCorrectTempo.addAll(applyMeterAndDefaultLength(allRawSoundUnits)) // see helper method  
-        // }
-        // return preMidiNotesCorrectTempo;
         return null;
     }
     
