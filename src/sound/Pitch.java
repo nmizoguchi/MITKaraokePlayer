@@ -102,7 +102,7 @@ public class Pitch {
      * semitone is E flat; E transposed by 1 semitone is E sharp.
      */
     public Pitch accidentalTranspose(int semitonesUp) {
-        return new Pitch(value, accidental + semitonesUp, octave, true);
+        return new Pitch(value, accidental + semitonesUp, octave, this.hasAccidental);
     }
 
     /**
