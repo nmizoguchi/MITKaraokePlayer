@@ -2,7 +2,14 @@ package player;
 
 import java.io.IOException;
 
+import org.antlr.v4.codegen.model.ListenerDispatchMethod;
+
+import sound.LyricListener;
+import sound.SequencePlayer;
 import musicRepresentation.ABCMusic;
+import musicRepresentation.MidiNoteRepresentation;
+import musicRepresentation.SequencerInformation;
+import musicRepresentation.Syllable;
 
 
 /**
@@ -19,16 +26,31 @@ public class Main {
      *            the name of input abc file
      */
     public static void play(String file) {
-        ABCMusic music;
+        
+        ABCMusic myTune;
         try {
-            music = new ABCMusic(file);
+            myTune = new ABCMusic(file);
         } catch (IOException e) {
             System.out.println("File "+ file +" not found!");
         }
+        
+        SequencerInformation myInfo = myTune.constructSequencerInformation();
 
-        // SequencePlayer player = new SequencePlayer(music.getBeatsPerMinute(),
-        // music.getTicksPerBeat,
-        // listener);
+        //TODO: figure out what kind of listener do we put in here!
+        SequencePlayer player = new SequencePlayer(myInfo.getBeatsPerMinute(), myInfo.getTicksPerBeat(), new Listener() );
+        
+        // Adding all MidiNoteRepresentations as MidiNotes
+        for(MidiNoteRepresentation n : myInfo.getMidiNotes())
+            player.addNote(n.getPitch().toMidiNote(), n.getStartTick(), n.getNumTicks());
+        
+        // Adding all Syllables
+        for(Syllable s : myInfo.getSyllables())
+            player.addLyricEvent(s.getSyllable(), s.getStartTick());
+        
+        player.addLyricEvent(myTune.getTitle(), 0);
+        player.addLyricEvent(myTune.getComposer(), 0);
+        player.play();
+        
     }
 
     public static void main(String[] args) {
