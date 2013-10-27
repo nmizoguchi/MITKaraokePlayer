@@ -68,6 +68,26 @@ public class Pitch {
         this.hasAccidental = false;
         checkRep();
     }
+    
+    /**
+     * Make a Pitch, but receiving more parameters. 
+     * @param c a note in {'A',...,'G'}
+     * @param accidental
+     * @param octave
+     * @param hasAccidental
+     * @return Pitch named c in the middle octave of the piano keyboard.
+     */
+    public Pitch(char c, int accidental, int octave, boolean hasAccidental) {
+        int index = c - 'A';
+        if (index < 0 || index >= scale.length)
+            throw new IllegalArgumentException(c + " must be in the range A-G");
+
+        this.value = scale[index];
+        this.accidental = accidental;
+        this.octave = octave;
+        this.hasAccidental = hasAccidental;
+        checkRep();
+    }
 
     /**
      * Number of pitches in an octave.
@@ -75,6 +95,7 @@ public class Pitch {
     public static final int OCTAVE = 12;
 
     /**
+     * Transposes the accidental of the Pitch and turns hasAccidental to true.
      * @return pitch made by adding semitonesUp sharps to this pitch,
      * if the argument is positive, or -semitonesUp flats, if the
      * argument is negative.  For example, E transposed by -1
