@@ -11,6 +11,11 @@ public class SequencerInformation {
     private List<MidiNoteRepresentation> midiNotes;
     private List<Syllable> syllables;
     
+    SequencerInformation(List<MidiNoteRepresentation> midiNotes, List<Syllable> syllables){
+        this.midiNotes = midiNotes;
+        this.syllables = syllables;
+    }
+    
     /**
      * Gives a list of MidiNoteRepresentation.
      * @return List of MidiNoteRepresentation
@@ -26,6 +31,5 @@ public class SequencerInformation {
     public List<Syllable> getSyllables() {
         return syllables;
     }
-    
     
 }
