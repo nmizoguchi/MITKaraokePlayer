@@ -515,13 +515,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void enterField_composer(Field_composerContext ctx) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void exitField_composer(Field_composerContext ctx) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -663,8 +662,10 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitField_title(Field_titleContext ctx) {
-        // TODO Auto-generated method stub
-        
+        for(int i=0; i < ctx.getChildCount(); i++){
+            // Put initially T: and then the String representing Title
+            stack.push(ctx.getChild(i).getText());
+        }
     }
 
     @Override
@@ -695,7 +696,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
             accidental = 0;
 
         Pitch p = new Pitch(Character.toUpperCase(c), accidental, octave, hasAccidental);
-        System.out.println(p.toString());
         stack.push(p);
     }
 
