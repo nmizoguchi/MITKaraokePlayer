@@ -82,4 +82,16 @@ public class Note {
 	public void setDurationMultiplier(double newDurationMultiplier) {
 		durationMultiplier = newDurationMultiplier;
 	}
+	
+	
+	/**
+	 * Sets the value of pitch to newPitch. Used in the constructor method of
+	 * the Measure class.
+	 * 
+	 * @param newPitch
+	 *            the new pitch of the Note
+	 */
+	public void setPitch(Pitch newPitch) {
+		pitch = newPitch;
+	}
 }

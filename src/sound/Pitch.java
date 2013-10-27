@@ -14,7 +14,7 @@ package sound;
  *   new Pitch('C').transpose(-OCTAVE) makes low C.
  */
 public class Pitch {
-    private final int value;
+	private final int value;
     private final int accidental;
     private final int octave;
     private final boolean hasAccidental;
@@ -42,7 +42,8 @@ public class Pitch {
         7   // G
     };
 
-    private Pitch(int value, int accidental, int octave, boolean hasAccidental) {
+    // NOTE: This visibility of this constructor was changed from private to public by Eric.
+    public Pitch(int value, int accidental, int octave, boolean hasAccidental) {
         this.value = value;
         this.accidental = accidental;
         this.octave = octave;
@@ -232,4 +233,20 @@ public class Pitch {
         return value == 0 || value == 2 || value == 4 || value == 5
             || value == 7 || value == 9 || value == 11;
     }
+    
+    public int getValue() {
+		return value;
+	}
+
+	public int getAccidental() {
+		return accidental;
+	}
+
+	public int getOctave() {
+		return octave;
+	}
+
+	public boolean isHasAccidental() {
+		return hasAccidental;
+	}
 }
