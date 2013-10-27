@@ -1,14 +1,14 @@
 package musicRepresentation;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
 
 import org.junit.Test;
 
 public class ABCMusicTest {
 
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void testConstructSequencerInformation_BPMTransformation() throws IOException {
+        // TODO: We need the parser working!
     }
 
 }

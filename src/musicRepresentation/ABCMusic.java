@@ -72,11 +72,12 @@ public class ABCMusic {
         // ABCMusicParseListener() has methods to get all information from the
         // AST
         // have to initialize all variables
-        this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
-        this.header = ((ABCMusicParseListener) listener).getHeader();
+        //TODO: When parsed correctly, remove comment
+        //this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
+        //this.header = ((ABCMusicParseListener) listener).getHeader();
     }
 
-    /**
+    /** 
      * Transform the representation of the .abc file into information to be
      * passed to a SequencePlayer. It goes through all voices, returning the
      * representation of each note as a MidiNoteRepresentation in the list.
@@ -89,7 +90,7 @@ public class ABCMusic {
         int bpmDefaultLength;
         bpmDefaultLength = (int) ((header.getBpmNoteLength()/header.getDefaultNoteLength())*
                                                                 header.getBeatsPerMinute());
-        /*****
+        /*
          * Get all notes and syllables from ABCMusic as MidiNoteRep and Syllables.
          * 
          * Strategy:
@@ -107,7 +108,8 @@ public class ABCMusic {
         
         // Define parameters
         int startTick = 0;
-        int ticksPerBeat = (int)(1536*header.getDefaultNoteLength());
+        int leastCommonTick = 1536; // 3*2^9 (Covers really short beats and also triplets)
+        int ticksPerBeat = (int)(leastCommonTick*header.getDefaultNoteLength());
         Iterator<Voice> voicesIterator = voices.iterator();
         
         // Iterates through all voices in the piece
@@ -155,7 +157,8 @@ public class ABCMusic {
                 }
             }
         }
-        return null;
+        
+        return new SequencerInformation(midiNotes, lyrics, bpmDefaultLength,ticksPerBeat);
     }
 
     /**
