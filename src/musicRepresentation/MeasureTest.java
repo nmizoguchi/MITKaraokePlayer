@@ -190,7 +190,6 @@ public class MeasureTest {
         
         Measure guineaPigMeasure = new Measure(guineaPigKey, guineaPigSoundUnits, barline);
         
-        
         assertEquals(guineaPigMeasure.getListOfSoundUnits().get(0).equals(chord1out), true);
         assertEquals(guineaPigMeasure.getListOfSoundUnits().get(1).equals(chord2out), true);
         assertEquals(guineaPigMeasure.getListOfSoundUnits().get(2).equals(chord3out), true);
@@ -295,11 +294,11 @@ public class MeasureTest {
      *      containing a number of valid strings greater than the list of sound units and not ending with a bar line.
      * 
      * @param originalListOfStrings
-     * @return a list of Strings excluding the Strings that weren’t matched.
+     * @return a list of Strings excluding the Strings that werenï¿½t matched.
      */
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_lessValidStrings_noBarLine_endsWithARest() {
+    public void testApplyLyrics_lessValidStrings_noBarLine() {
         // In this case, we expect the method to return an empty array.
         String[] expectedValues = new String[0];
         
@@ -331,7 +330,6 @@ public class MeasureTest {
         guineaPigSoundUnits.add(chordB);
         guineaPigSoundUnits.add(chordC);
         guineaPigSoundUnits.add(chordD);
-        guineaPigSoundUnits.add(new Rest(0.123));
         
         
         KeySignature guineaPigKey = new KeySignature("C");
@@ -343,7 +341,7 @@ public class MeasureTest {
 
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_lessValidStrings_endingBarLine_endsWithRests() {
+    public void testApplyLyrics_lessValidStrings_endingBarLine() {
         // In this case, we expect the method to return an empty array.
         String[] expectedValues = new String[0];
         
@@ -366,21 +364,16 @@ public class MeasureTest {
         final Note noteD = new Note(pitchDlow);
         
         // Inline declaration
-        
         Chord chordA = new Chord(new ArrayList<Note>(){{add(noteA);}});
         Chord chordB = new Chord(new ArrayList<Note>(){{add(noteB);}});
         Chord chordC = new Chord(new ArrayList<Note>(){{add(noteC);}});
         Chord chordD = new Chord(new ArrayList<Note>(){{add(noteD);}});
         
         List<SoundUnit> guineaPigSoundUnits = new ArrayList<SoundUnit>();
-        
         guineaPigSoundUnits.add(chordA);
         guineaPigSoundUnits.add(chordB);
         guineaPigSoundUnits.add(chordC);
         guineaPigSoundUnits.add(chordD);
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
         
         
         KeySignature guineaPigKey = new KeySignature("C");
@@ -392,7 +385,7 @@ public class MeasureTest {
 
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_sameNumberOfValidStrings_noBarLine_middleHasRests() {
+    public void testApplyLyrics_sameNumberOfValidStrings_noBarLine() {
         // In this case, we expect the method to return an empty array.
         String[] expectedValues = new String[0];
         
@@ -422,10 +415,7 @@ public class MeasureTest {
         
         List<SoundUnit> guineaPigSoundUnits = new ArrayList<SoundUnit>();
         guineaPigSoundUnits.add(chordA);
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordB);
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordC);
         guineaPigSoundUnits.add(chordD);
         
@@ -439,7 +429,7 @@ public class MeasureTest {
 
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_sameNumberOfValidStrings_endingBarLine_restsEverywhere() {
+    public void testApplyLyrics_sameNumberOfValidStrings_endingBarLine() {
         // In this case, we expect the method to return an empty array.
         String[] expectedValues = new String[0];
         
@@ -469,20 +459,10 @@ public class MeasureTest {
         Chord chordD = new Chord(new ArrayList<Note>(){{add(noteD);}});
         
         List<SoundUnit> guineaPigSoundUnits = new ArrayList<SoundUnit>();
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordA);
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordB);
         guineaPigSoundUnits.add(chordC);
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordD);
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
-        guineaPigSoundUnits.add(new Rest(0.123));
         
         
         KeySignature guineaPigKey = new KeySignature("C");
@@ -494,7 +474,7 @@ public class MeasureTest {
 
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_moreValidStrings_noBarLine() {
+    public void testApplyLyrics_moreValidStrings_onBarLine() {
         // In this case, we expect the method to return an array consisting of the ending strings.
         String[] expectedValues = new String[]{"a-","ma-","zing","thing"};
         
@@ -542,7 +522,7 @@ public class MeasureTest {
 
     @SuppressWarnings("serial")
     @Test
-    public void testApplyLyrics_moreValidStrings_endingBarLine_startsAndEndsWithRests() {
+    public void testApplyLyrics_moreValidStrings_endingBarLine() {
         // In this case, we expect the method to return an array consisting of the ending strings.
         String[] expectedValues = new String[]{"a-","ma-","zing","thing", "|"};
         
@@ -576,13 +556,10 @@ public class MeasureTest {
         Chord chordD = new Chord(new ArrayList<Note>(){{add(noteD);}});
         
         List<SoundUnit> guineaPigSoundUnits = new ArrayList<SoundUnit>();
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordA);
         guineaPigSoundUnits.add(chordB);
-        guineaPigSoundUnits.add(new Rest(0.123));
         guineaPigSoundUnits.add(chordC);
         guineaPigSoundUnits.add(chordD);
-        guineaPigSoundUnits.add(new Rest(0.123));
         
         
         KeySignature guineaPigKey = new KeySignature("C");

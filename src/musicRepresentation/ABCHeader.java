@@ -10,11 +10,13 @@ public class ABCHeader {
     private String composer;
     private int beatsPerMinute;
     private int ticksPerBeat;
-    private double whatNoteGetsTheBeat;
+    private int beatsPerMeasure; // Denominator of Meter
+    private double whatNoteGetsTheBeat; // Divisor of Meter
     private double defaultNoteLength;
+    private double bpmNoteLength;
     private KeySignature keySignature;
     
-    public ABCHeader(String title, String composer,int beatsPerMinute,
+    public ABCHeader(String title, String composer,int beatsPerMinute, double bpmNoteLength,
                         int ticksPerBeat, double whatNoteGetsTheBeat,
                         double defaultNoteLength, String key) {
         this.title = title;
@@ -23,16 +25,28 @@ public class ABCHeader {
         this.ticksPerBeat = ticksPerBeat;
         this.whatNoteGetsTheBeat = whatNoteGetsTheBeat;
         this.defaultNoteLength = defaultNoteLength;
+        this.bpmNoteLength = bpmNoteLength;
         this.keySignature = new KeySignature(key);
     }
-    
+
     /**
      * Gives the information of how many beats per minute of
-     * the music that Header represents.
+     * the music that Header represents. Good to remember that
+     * the representation of bpm is in the bpmNoteLength time.
      * @return beatsPerMinute which is always an integer.
      */
     public int getBeatsPerMinute() {
         return beatsPerMinute;
+    }
+    
+    /**
+     * Gives the information of what note is the beat default.
+     * For instance, if the bpm is 60 and the bpmNoteLength is 1/4
+     * we will play 1 quarter note per second.
+     * @return beatsPerMinute which is always an integer.
+     */
+    public double getBpmNoteLength() {
+        return bpmNoteLength;
     }
     
     /**
@@ -58,6 +72,14 @@ public class ABCHeader {
      */
     public String getComposer() {
         return composer;
+    }
+    
+    /**
+     * Gives the denominator of the Meter.
+     * @return an integer that represents how many beats (of type NoteLength) we have per measure.
+     */
+    public int getBeatsPerMeasure() {
+        return beatsPerMeasure;
     }
     
     /**

@@ -14,7 +14,7 @@ public class ABCHeaderTest {
          * Checks all mutators (it doesn't have).
          * Verify attributes that might allow mutability.
          */
-        ABCHeader header = new ABCHeader("Title", "Composer", 200,12,0.5,0.25,"G");
+        ABCHeader header = new ABCHeader("Title", "Composer", 200,0.25,12,0.5,0.25,"G");
         ABCHeader originalHeader = header;
         
         // Only object that might break invariant is KeySignature.
@@ -32,7 +32,7 @@ public class ABCHeaderTest {
     
     public void testABCHeader_getMethods() {
         // Checks getter methods.
-        ABCHeader header = new ABCHeader("Gravity", "John Meyer",0,0,0.0, 0.0, "A");
+        ABCHeader header = new ABCHeader("Gravity", "John Meyer",0,0,0,0.0, 0.0, "A");
         assertEquals("Gravity", header.getComposer());
         assertEquals("John Meyer", header.getTitle());
         assertEquals(new KeySignature("A").equals(header.getKeySignature()), true);
@@ -42,8 +42,7 @@ public class ABCHeaderTest {
         assertEquals(0.0, header.getWhatNoteGetsTheBeat(), 0.01);
         
         // Max Values, spaces  ' and empty strings.
-        header = new ABCHeader("Don't stop this train", "", Integer.MAX_VALUE,Integer.MAX_VALUE,
-                                Double.MAX_VALUE, Double.MAX_VALUE, "C#");
+        header = new ABCHeader("Don't stop this train", "", 0, 0, 0, 0, 0, "C#");
         assertEquals("Don't Stop this train", header.getComposer());
         assertEquals("John Meyer", header.getTitle());
         assertEquals(new KeySignature("C#").equals(header.getKeySignature()), true);
