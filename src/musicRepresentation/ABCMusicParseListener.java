@@ -219,17 +219,17 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void exitNote_length(Note_lengthContext ctx) {
         // note_length : NUMBER? SLASH NUMBER? | NUMBER;
-        double num = 1;
-        double den = 1;
+        double num = 1.;
+        double den = 1.;
 
         if (ctx.getChildCount() == 1) {
             // we can have a number or a bar
             switch (ctx.start.getType()) {
             case ABCMusicLexer.NUMBER:
-                num = 1;
+                num = Double.parseDouble(ctx.getChild(0).getText());;
                 break;
             case ABCMusicLexer.SLASH:
-                den = 2;
+                den = 2.;
                 break;
             }
         } else if (ctx.getChildCount() == 3) {
@@ -237,14 +237,15 @@ public class ABCMusicParseListener implements ABCMusicListener {
             num = Double.parseDouble(ctx.getChild(0).getText());
             den = Double.parseDouble(ctx.getChild(2).getText());
         } else {
-            // we can only have slash number or number slash here
+            // we can only have slash-number or number-slash here
             if (ctx.getChild(0).getText().equals("/")) {
                 den = Double.parseDouble(ctx.getChild(1).getText());
             } else {
                 num = Double.parseDouble(ctx.getChild(0).getText());
             }
         }
-
+        System.out.println(num);
+        System.out.println(den);
         stack.push(num / den);
     }
 
@@ -365,8 +366,42 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitNote(NoteContext ctx) {
-        // TODO Auto-generated method stub
-        
+        // Case 1: A note has two children which means that it has a note_length child. In this
+        // case, we will pop the double (that represents the note
+        // length) and an Object, that represents a Pitch or a period of rest. If the object is a
+        // Pitch, we instantiate a Note, and push it to the stack,
+        // and if it is a period of rest, we instantiate a Rest object and push it to the stack.
+        // Case 2 (Rest): A note has one child which means that it does not have a note_length
+        // child. We follow procedure as above, instantiating a Note or
+        // Rest object using the default value of one for durationMultiplier.
+        switch (ctx.getChildCount()) {
+        case 2:
+            double noteLength = (double)stack.pop();
+            if(stack.peek() instanceof Pitch){
+                Note n = new Note((Pitch)stack.pop(), noteLength);
+                stack.add(n);
+                return;
+            }
+            else if(stack.peek() instanceof Character){
+                stack.pop();
+                Rest r = new Rest(noteLength);
+                stack.add(r);
+                return;
+            }
+            break;
+        case 1:
+            if(stack.peek() instanceof Pitch){
+                Note n = new Note((Pitch)stack.pop());
+                stack.add(n);
+                return;
+            }
+            else if(stack.peek() instanceof Character){
+                Rest r = new Rest();
+                stack.add(r);
+                return;
+            }
+            break;
+        }
     }
 
     @Override
@@ -604,6 +639,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void exitRest(RestContext ctx) {
         //rest : LOWERCASE_Z;
+        System.out.println('z');
         stack.push('z');
     }
 
