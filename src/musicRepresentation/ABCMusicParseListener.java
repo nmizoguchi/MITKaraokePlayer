@@ -44,12 +44,9 @@ import grammar.ABCMusicParser.Valid_letterContext;
 import grammar.ABCMusicParser.Valid_noteContext;
 import grammar.ABCMusicParser.Valid_text_with_numberContext;
 
-<<<<<<< HEAD
 import java.util.Map;
 import java.util.Stack;
 
-=======
->>>>>>> b42be3263d7a7ab690b21e7c9244c7a2979fbbfc
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;

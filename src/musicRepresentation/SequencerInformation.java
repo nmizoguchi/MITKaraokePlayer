@@ -2,6 +2,11 @@ package musicRepresentation;
 
 import java.util.List;
 
+/**
+ * Immutable class that has music information for the SequencePlayer.
+ * @author Nicholas M. Mizoguchi
+ *
+ */
 public class SequencerInformation {
     private List<MidiNoteRepresentation> midiNotes;
     private List<Syllable> syllables;
