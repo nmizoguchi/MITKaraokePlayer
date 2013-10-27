@@ -109,4 +109,20 @@ public class ABCHeader {
         return keySignature;
     }
 
+    /**
+     * Returns a string that represents the header (formated)
+     */
+    @Override
+    public String toString() {
+        String info;
+        info = "Title: "+this.title+"\n";
+        info = info.concat("Composer: "+this.composer+"\n");
+        info = info.concat("Tempo: "+bpmNoteLength+"="+this.beatsPerMinute+"\n");
+        info = info.concat("Default note(beat): "+this.defaultNoteLength+"\n");
+        info = info.concat("Ticks per beat: "+this.ticksPerBeat+"\n");
+        info = info.concat("Meter note: "+this.whatNoteGetsTheBeat+"\n");
+        info = info.concat("Beats per Measure: "+this.beatsPerMeasure+"\n");
+        info = info.concat("Key: "+this.keySignature.getKeyName()+"\n");
+        return info;
+    }
 }
