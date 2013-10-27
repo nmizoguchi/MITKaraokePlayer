@@ -2,6 +2,7 @@ package musicRepresentation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +29,8 @@ public class Measure {
      *            a list of the sound units (chords and rests) that compose the measure. Must be
      *            non-empty.
      * @param endingBarLine
-     *            a String representing the ending bar line. Requires a valid bar line (can be “|”,
-     *            “||”, “|]”, “[|”, “:|”, “|:”).
+     *            a String representing the ending bar line. Requires a valid bar line (can be "|",
+     *            "||", "|]", "[|", ":|", "|:").
      */
     Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String endingBarLine) {
         // Assigning the endingBarLine.
@@ -40,12 +41,16 @@ public class Measure {
         Map<Pitch, Pitch> measureSignature = keySignature.getPitchMap();
 
         this.listOfSoundUnits = new ArrayList<SoundUnit>(chordsAndRestsInMeasure);
+        
         // Secondly, we need to iterate over all SoundUnits of the measure
         for (SoundUnit sUnit : listOfSoundUnits) {
+            
             // If we are dealing with a Chord instance, we need to work on it (not on a Rest!)
             if (sUnit instanceof Chord) {
+                
                 // Then, we iterate over all notes inside our Chord.
                 for (Note note : ((Chord) sUnit).getListOfNotesInChord()) {
+                    
                     if (note.getPitch().isHasAccidental()) {
                         // If the actual note being iterated has an Accidental, we need to update
                         // the
@@ -104,57 +109,68 @@ public class Measure {
     }
 
     /**
-     * Takes a List<String> and matches it to the correspondent Chord. If it encounters a “|” then
-     * it makes the rest of the Chords in the measure have the “*” for its syllable.
+     * Takes a List<String> and matches it to the correspondent Chord. If it encounters a ï¿½|ï¿½ then
+     * it makes the rest of the Chords in the measure have the ï¿½*ï¿½ for its syllable.
      * Measure.applyLyrics() returns the input List<String> without the Strings that weren't
      * matched.
      * 
      * @param originalListOfStrings
-     * @return a list of Strings excluding the Strings that weren’t matched.
+     * @return a list of Strings excluding the Strings that werenï¿½t matched.
      */
     List<String> applyLyrics(List<String> originalListOfStrings) {
         
-        // First, we need to figure out the index of the chords from listOfSoundUnits
-        List<Integer> chordIndexes = new ArrayList<Integer>();
-        for (int i = 0; i < listOfSoundUnits.size(); i++) {
-            if (listOfSoundUnits.get(i) instanceof Chord) {
-                chordIndexes.add(i);
-            }
-        }
-
-        // Then, we need to make sure that they are ordered.
-        Collections.sort(chordIndexes);
-
-        // After that, we need to iterate over both lists together, assigning Strings if needed, and
-        // popping them if it is the case.
-        List<String> stringsToBeInserted = new ArrayList<String>(originalListOfStrings);
-
-        for (int i = 0; i < Math.min(stringsToBeInserted.size(), chordIndexes.size()); i++) {
-            // 'i' will iterate until the shortest list ends
-
-            // this will happen when we meet the barline!
-            if (stringsToBeInserted.get(i).equals("|")) {
-                // 1) get rid of that bar!
-                stringsToBeInserted.remove(i);
-
-                // 2) we need to fill the rest of the Chords in the measure with the ""
-                for (int j = i; j < chordIndexes.size(); j++) {
-                    ((Chord) listOfSoundUnits.get(chordIndexes.get(j))).setSyllable("");
-                }
-                return stringsToBeInserted;
-            }
+        List<String> lyrics = originalListOfStrings;
+        
+        Iterator soundUnitIterator = listOfSoundUnits.iterator();
+        Iterator syllablesIterator = lyrics.iterator();
+        
+        /* newStart represents from the position of the syllable that
+         * was not appended to a Chord yet. */ 
+        int newStart = 0;
+        
+        while(soundUnitIterator.hasNext()) {
+            // Iterates over listOfSoundUnits
+            SoundUnit current = (SoundUnit) soundUnitIterator.next();
             
-            // This is the case where we remove the bar. It needs to be the last one to be treated.
-            // Only happens when we are at the last chord position and the next position is
-            // accessible on strings, and that position has a bar. If so, we need to remove that bar
-            // and return.
-            if(i == chordIndexes.size() - 1){
-                if((i+1) < stringsToBeInserted.size() && stringsToBeInserted.get(i+1).equals("|")){
-                    stringsToBeInserted.remove(i+1);
-                }
-            }            
-        }
-        return stringsToBeInserted;
-    }
+            // Apply the lyric only to chords
+            if( current instanceof Chord ){
+                
+                // If there is a syllable to insert
+                if( syllablesIterator.hasNext() ) {
+                    // Get the next syllable to apply
+                    String syllable = (String) syllablesIterator.next();
+                    newStart++;
+            
+                    /* If a barline appears, stops. The other syllables
+                     * will be put in the next measure */
+                    if( syllable.equals("|")) {
+                        newStart++;
+                        break;
 
+                    // Substitute stars with empty strings
+                    } else if( syllable.equals("*")) {
+                        syllable = "";
+                    }
+                    
+                    // Put the syllable in the chord
+                    ((Chord) current).setSyllable(syllable);
+                }
+            }
+        }
+        
+        // If the next string is a |, then skip it
+        if( syllablesIterator.hasNext() ) {
+            if (syllablesIterator.next().equals("|")) {
+                newStart++;
+            }
+        }
+        
+        if( newStart < originalListOfStrings.size() ) {
+            return originalListOfStrings.subList(newStart, originalListOfStrings.size());
+        }
+        
+        else {
+            return new ArrayList<String>();
+        }
+    }
 }
