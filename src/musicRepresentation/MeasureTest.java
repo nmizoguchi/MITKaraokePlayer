@@ -294,7 +294,7 @@ public class MeasureTest {
      *      containing a number of valid strings greater than the list of sound units and not ending with a bar line.
      * 
      * @param originalListOfStrings
-     * @return a list of Strings excluding the Strings that weren�t matched.
+     * @return a list of Strings excluding the Strings that weren't matched.
      */
     @SuppressWarnings("serial")
     @Test

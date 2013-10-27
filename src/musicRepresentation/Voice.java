@@ -1,8 +1,7 @@
 package musicRepresentation;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import sound.Pitch;
 
 /**
  * The Voice class represents a Voice in an abc music file. Voice is composed of
@@ -64,20 +63,56 @@ public class Voice {
 	 * Begin Repeat "|:" marks the beginning of a repeated section.
 	 * End Repeat ":|" makes the piece repeat from either a Begin Repeat, the
 	 * 		beginning of the piece, or End Bold Double Bar Lines, whichever appears closest
-	 * Begin Bold Double Barlines "[|" do not affect repeats.
+	 * Begin Bold Double Barlines "[|" marks the beginning of the section.
 	 * End Bold Double Barlines "|]" marks the beginning of the next section 
 	 * 		(i.e repeats begin from the measure following the one ending with this marker)
+	 * Alternate Ending 1 "[1" marks the first alternate ending of a repeated section
+	 * Alternate Ending 2 "[2" marks the second alternate ending of a repeated section
 	 * 
 	 * @return the Voice Object with its listOfMeasures corrected such that
 	 *         repeats are handled correctly
 	 */
     Voice fixRepeats() {
         List<Measure> newListOfMeasures = new ArrayList<Measure>();
-        int measureToRepeatFrom = 1; // repeats to the beginning of piece unless otherwise noted
+        int measureToRepeatFrom = 0; // repeats to the beginning of piece unless otherwise noted
+        boolean firstAlternateEndingSeen = false;
+        int firstAlternateEndingBegins = 0;
         
+        int i = 0;
         for (Measure m: listOfMeasures) {
-        	m.
+        	// handle "|:" and "[|" which mark the beginning of repeated sections
+        	if (m.getBeginningBarLine().equals("|:")
+        			|| m.getBeginningBarLine().equals("[|")) {
+        		measureToRepeatFrom = i;
+        	}
+        	
+        	// handle "[1" which marks the first alternate ending of a repeated section
+        	if (m.getBeginningBarLine().equals("[1")) {
+        		firstAlternateEndingBegins = i;
+        		firstAlternateEndingSeen = true;
+        	}
+        	++i;
+        	newListOfMeasures.add(m);
+        	
+        	// handle repeats
+        	if (m.getEndingBarLine().equals(":|")) {
+        		if (!firstAlternateEndingSeen) {
+        			// Note: toIndex on subList(int, int) is exclusive
+        			newListOfMeasures.addAll(listOfMeasures.subList(measureToRepeatFrom, i));
+        	}
+        		else {
+        			newListOfMeasures.addAll(listOfMeasures.subList(measureToRepeatFrom, firstAlternateEndingBegins));
+        			firstAlternateEndingSeen = false;
+        		}
+        	}
+        	
+        	// handle End Bold Double Barlines "|]"
+        	if (m.getEndingBarLine().equals("|]")) {
+        		measureToRepeatFrom = i;
+        	}
         }
+        
+        return new Voice(voiceName, newListOfMeasures);
     }
     
     @Override

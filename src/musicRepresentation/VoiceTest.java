@@ -292,6 +292,10 @@ public class VoiceTest {
 	 * 		- One repeat with bold double bar line |]
 	 * 				( Measure 1 |] Measure 2 :|  BECOMES Measure 1 | Measure 2 | Measure 2 )
 	 * 
+	 * 		- One repeat with begin bold double barline [|
+	 * 				( Measure 1 |[| Measure 2 | Measure 3 :|  BECOMES
+	 * 				  Measure 1 | Measure 2 | Measure 3 | Measure 2 | Measure 3 | )
+	 * 
 	 * 		- Two repeats
 	 * 				( Measure 1  :|  Measure 2 ||: Measure 3 :|  BECOMES
 	 * 				  Measure 1 | Measure 1 | Measure 2 | Measure 3 | Measure 3 | )
@@ -490,7 +494,7 @@ public class VoiceTest {
 	// Tests the fixRepeats method on a Voice containing One repeat with bold double bar line |]
 	// ( Measure 1 |] Measure 2 :|  BECOMES Measure 1 | Measure 2 | Measure 2 )
 	@Test
-	public void testFixRepeats_OneRepeatWithDoubleBarLine() {
+	public void testFixRepeats_OneRepeatWithEndBoldDoubleBarLine() {
 		// instantiate a Note
 		Note note1 = new Note(new Pitch('C'), 2);
 		// instantiate a Chord
@@ -530,6 +534,68 @@ public class VoiceTest {
 		result.add(measure2);
 		assertTrue(voiceCorrected.getListOfMeasures().equals(result));
 	}
+	
+	// Tests the fixRepeats method on a Voice containing One repeat with begin bold double barline [|
+	// 				( Measure 1 |[| Measure 2 | Measure 3 :|  BECOMES
+	// 				  Measure 1 | Measure 2 | Measure 3 | Measure 2 | Measure 3 | )
+	@Test
+	public void testFixRepeats_OneRepeatWithBeginBoldDoubleBarLine() {
+		// instantiate a Note
+		Note note1 = new Note(new Pitch('C'), 2);
+		// instantiate a Chord
+		List<Note> listOfNotesInChord = new ArrayList<Note>();
+		listOfNotesInChord.add(note1);
+		Chord chord1 = new Chord(listOfNotesInChord);
+		// instantiate a Measure
+		KeySignature keySignature = new KeySignature("Em"); // F# only note affected
+		List<SoundUnit> chordsAndRestsInMeasure = new ArrayList<SoundUnit>();
+		chordsAndRestsInMeasure.add(chord1);
+		String endingBarLine = "|";
+		Measure measure1 = new Measure(keySignature, chordsAndRestsInMeasure, endingBarLine);
+		
+		// instantiate a Note
+		Note note2 = new Note(new Pitch('E'), 4);
+		// instantiate a Chord
+		List<Note> listOfNotesInChord2 = new ArrayList<Note>();
+		listOfNotesInChord2.add(note2);
+		Chord chord2 = new Chord(listOfNotesInChord2);
+		// instantiate a Measure with a bold double bar line at the beginning
+		List<SoundUnit> chordsAndRestsInMeasure2 = new ArrayList<SoundUnit>();
+		chordsAndRestsInMeasure2.add(chord2);
+		String beginningBarLine2 = "[|";
+		String endingBarLine2 = "|";
+		Measure measure2 = new Measure(keySignature, chordsAndRestsInMeasure2, beginningBarLine2, endingBarLine2);
+		
+		// instantiate a 3rd Measure with a barline at the beginning of the measure, and a repeat barline ending the measure
+		Note note3 = new Note(new Pitch('D'), 2);
+		// instantiate a Chord
+		List<Note> listOfNotesInChord3 = new ArrayList<Note>();
+		listOfNotesInChord3.add(note3);
+		Chord chord3 = new Chord(listOfNotesInChord3);
+		// instantiate a Measure
+		List<SoundUnit> chordsAndRestsInMeasure3 = new ArrayList<SoundUnit>();
+		chordsAndRestsInMeasure3.add(chord3);
+		String endingBarLine3 = ":|";
+		Measure measure3 = new Measure(keySignature, chordsAndRestsInMeasure3, endingBarLine3);
+		
+		// instantiate a Voice
+		List<Measure> listOfMeasures = new ArrayList<Measure>();
+		listOfMeasures.add(measure1);
+		listOfMeasures.add(measure2);
+		listOfMeasures.add(measure3);
+		Voice voice = new Voice("voice", listOfMeasures);
+		Voice voiceCorrected = voice.fixRepeats();
+		
+		List<Measure> result = new ArrayList<Measure>();
+		// the List<Measure> result is measure1, measure2, measure3, measure2, measure3
+		result.add(measure1);
+		result.add(measure2);
+		result.add(measure3);
+		result.add(measure2);
+		result.add(measure3);
+		assertTrue(voiceCorrected.getListOfMeasures().equals(result));
+	}
+		
 	
 	// Tests the fixRepeats method on a Voice containing two repeats
 	// ( Measure 1  :|  Measure 2 ||: Measure 3 :|  BECOMES
@@ -656,7 +722,7 @@ public class VoiceTest {
 	// ( Measure 1 ]| Measure 2 |[1 Measure 3 :|[2 Measure 4 | BECOMES
 	//	 Measure 1 | Measure 2 | Measure 3 | Measure 2 | Measure 4 | )
 	@Test
-	public void testFixRepeats_AlternateEndingsWithDoubleBarLine() {
+	public void testFixRepeats_AlternateEndingsWithBoldDoubleBarLine() {
 		// instantiate a Note
 		Note note1 = new Note(new Pitch('C'), 2);
 		// instantiate a Chord
@@ -667,7 +733,7 @@ public class VoiceTest {
 		KeySignature keySignature = new KeySignature("Em"); // F# only note affected
 		List<SoundUnit> chordsAndRestsInMeasure = new ArrayList<SoundUnit>();
 		chordsAndRestsInMeasure.add(chord1);
-		String endingBarLine = "]|";
+		String endingBarLine = "|]";
 		Measure measure1 = new Measure(keySignature, chordsAndRestsInMeasure, endingBarLine);
 		
 		// instantiate a Note
@@ -716,6 +782,7 @@ public class VoiceTest {
 		listOfMeasures.add(measure4);
 		Voice voice = new Voice("voice", listOfMeasures);
 		Voice voiceCorrected = voice.fixRepeats();
+		System.out.println(voiceCorrected.getListOfMeasures());
 		
 		List<Measure> result = new ArrayList<Measure>();
 		// the List<Measure> result is measure1, measure2, measure3, measure2, measure4
@@ -724,6 +791,7 @@ public class VoiceTest {
 		result.add(measure3);
 		result.add(measure2);
 		result.add(measure4);
+		System.out.print(result.toString());
 		assertTrue(voiceCorrected.getListOfMeasures().equals(result));
 	}
 }

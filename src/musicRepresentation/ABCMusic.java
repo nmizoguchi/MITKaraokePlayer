@@ -155,8 +155,6 @@ public class ABCMusic {
                 }
             }
         }
-        
-        // Creates the object of SequencerInformation and return it.
         return null;
     }
 
