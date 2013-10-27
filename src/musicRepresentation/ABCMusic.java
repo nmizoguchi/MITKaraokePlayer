@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -74,6 +77,22 @@ public class ABCMusic {
      * @return an instance of SequencerInformation
      */
     public SequencerInformation constructSequencerInformation() {
+        List<Voice> voices = (ArrayList<Voice>) voiceMap.values();
+        List<SoundUnit> allRawSoundUnits = new ArrayList<SoundUnit>();
+        
+        
+        //getSeqOfPreMidiNotes(): @returns List<PreMidiNote>
+        List<MidiNoteRepresentation> preMidiNotesCorrectTempo = new ArrayList<MidiNoteRepresentation>();
+        
+        for (Voice v : voices) {
+            for (Measure m : v.getListOfMeasures()) {
+                allRawSoundUnits.addAll(m.getListOfSoundUnits());
+            }
+        }
+        
+        preMidiNotesCorrectTempo.addAll(applyMeterAndDefaultLength(allRawSoundUnits)) // see helper method  
+        // }
+        // return preMidiNotesCorrectTempo;
         return null;
     }
     
