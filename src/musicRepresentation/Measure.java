@@ -98,6 +98,10 @@ public class Measure {
     List<SoundUnit> getListOfSoundUnits() {
         return listOfSoundUnits;
     }
+    
+    String getBeginningBarLine() {
+    	return beginningBarLine;
+    }
 
     /**
      * Returns the list of sound units from this measure.
