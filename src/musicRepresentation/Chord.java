@@ -54,19 +54,19 @@ public class Chord implements SoundUnit {
 		return syllable;
 	}
 	
-	/**
-	 * @param syllable the syllable to be sung on this Chord
-	 */
-	public void setSyllable(String syllable) {
-		this.syllable = syllable;
-	}
-	
 	/* (non-Javadoc)
 	 * @see musicRepresentation.SoundUnit#getDurationMultiplier()
 	 */
 	@Override
 	public double getDurationMultiplier() {
 		return chordDurationMultiplier;
+	}
+	
+	/**
+	 * @param syllable the syllable to be sung on this Chord
+	 */
+	public void setSyllable(String syllable) {
+		this.syllable = syllable;
 	}
 	
 	/**
