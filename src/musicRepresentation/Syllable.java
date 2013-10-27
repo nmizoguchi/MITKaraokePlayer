@@ -1,4 +1,4 @@
-package sound;
+package musicRepresentation;
 
 public class Syllable {
     private int startTick;

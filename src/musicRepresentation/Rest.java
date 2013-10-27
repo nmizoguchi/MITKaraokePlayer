@@ -35,4 +35,16 @@ public class Rest implements SoundUnit{
 	public double getDurationMultiplier() {
 		return durationMultiplier;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj.getClass() != this.getClass())
+            return false;
+        Rest that = (Rest) obj;
+        return this.durationMultiplier == that.durationMultiplier;
+    }
 }

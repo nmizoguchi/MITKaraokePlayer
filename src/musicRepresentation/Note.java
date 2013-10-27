@@ -94,4 +94,17 @@ public class Note {
 	public void setPitch(Pitch newPitch) {
 		pitch = newPitch;
 	}
+	
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj.getClass() != this.getClass())
+            return false;
+        Note that = (Note) obj;
+        return this.pitch.equals(that.pitch)
+            && this.durationMultiplier == that.durationMultiplier;
+    }
 }

@@ -1,7 +1,11 @@
 package musicRepresentation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import sound.Pitch;
 
 /**
  * Represents a Measure. Measure is mutable.
@@ -11,7 +15,9 @@ import java.util.List;
  */
 public class Measure {
     private List<SoundUnit> listOfSoundUnits;
+    private String beginningBarLine;
     private final String endingBarLine;
+    
 
     /**
      * Creates a new Measure and applies the key signature to its chords.
@@ -28,6 +34,7 @@ public class Measure {
     Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String endingBarLine) {
         // Assigning the endingBarLine.
         this.endingBarLine = endingBarLine;
+        this.beginningBarLine = "";
         
         // Firstly, we need a copy of Pitch map from keySignature.
         Map<Pitch, Pitch> measureSignature = keySignature.getPitchMap();
@@ -38,8 +45,8 @@ public class Measure {
             // If we are dealing with a Chord instance, we need to work on it (not on a Rest!)
             if (sUnit instanceof Chord) {
                 // Then, we iterate over all notes inside our Chord.
-                for (Note note : sUnit.getListOfNotesInChord()) {
-                    if (note.getPitch().hasAccidental()) {
+                for (Note note : ((Chord) sUnit).getListOfNotesInChord()) {
+                    if (note.getPitch().isHasAccidental()) {
                         // If the actual note being iterated has an Accidental, we need to update
                         // the
                         // measureSignature map!
@@ -71,6 +78,11 @@ public class Measure {
         // if measureSignature.containsKey(note.getPitch)
         // note.pitch = measureSignature.get(note.getPitch)
 
+    }
+    
+    Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String beginningBarLine, String endingBarLine) {
+        this(keySignature, chordsAndRestsInMeasure, endingBarLine);
+        this.beginningBarLine = beginningBarLine;
     }
 
     /**
@@ -110,7 +122,48 @@ public class Measure {
      * @return a list of Strings excluding the Strings that weren’t matched.
      */
     List<String> applyLyrics(List<String> originalListOfStrings) {
+        
+        // First, we need to figure out the index of the chords from listOfSoundUnits
+        List<Integer> chordIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < listOfSoundUnits.size(); i++) {
+            if (listOfSoundUnits.get(i) instanceof Chord) {
+                chordIndexes.add(i);
+            }
+        }
 
+        // Then, we need to make sure that they are ordered.
+        Collections.sort(chordIndexes);
+
+        // After that, we need to iterate over both lists together, assigning Strings if needed, and
+        // popping them if it is the case.
+        List<String> stringsToBeInserted = new ArrayList<String>(originalListOfStrings);
+
+        for (int i = 0; i < Math.min(stringsToBeInserted.size(), chordIndexes.size()); i++) {
+            // 'i' will iterate until the shortest list ends
+
+            // this will happen when we meet the barline!
+            if (stringsToBeInserted.get(i).equals("|")) {
+                // 1) get rid of that bar!
+                stringsToBeInserted.remove(i);
+
+                // 2) we need to fill the rest of the Chords in the measure with the ""
+                for (int j = i; j < chordIndexes.size(); j++) {
+                    ((Chord) listOfSoundUnits.get(chordIndexes.get(j))).setSyllable("");
+                }
+                return stringsToBeInserted;
+            }
+            
+            // This is the case where we remove the bar. It needs to be the last one to be treated.
+            // Only happens when we are at the last chord position and the next position is
+            // accessible on strings, and that position has a bar. If so, we need to remove that bar
+            // and return.
+            if(i == chordIndexes.size() - 1){
+                if((i+1) < stringsToBeInserted.size() && stringsToBeInserted.get(i+1).equals("|")){
+                    stringsToBeInserted.remove(i+1);
+                }
+            }            
+        }
+        return stringsToBeInserted;
     }
 
 }
