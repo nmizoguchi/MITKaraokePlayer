@@ -2,6 +2,8 @@ package musicRepresentation;
 
 import java.util.List;
 
+import sound.Pitch;
+
 /**
  * The Chord class implements the SoundUnit class. A Chord is composed of a list
  * of one or more Notes in the Chord. As per the new specifications, the
@@ -88,4 +90,19 @@ public class Chord implements SoundUnit {
 		}
 		chordDurationMultiplier = chordDurationMultiplier*factor;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj.getClass() != this.getClass())
+            return false;
+        Chord that = (Chord) obj;
+        return this.syllable.equals(that.syllable)
+            && this.chordDurationMultiplier == that.chordDurationMultiplier
+            && this.listOfNotesInChord.equals(that.listOfNotesInChord);
+    }
 }

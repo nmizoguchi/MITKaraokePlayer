@@ -43,7 +43,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("G") || keyName.equals("Em")) {
             return;
@@ -55,7 +55,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("D") || keyName.equals("Bm")) {
             return;
@@ -67,7 +67,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("A") || keyName.equals("F#m")) {
             return;
@@ -79,7 +79,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("E") || keyName.equals("C#m")) {
             return;
@@ -92,7 +92,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("B") || keyName.equals("G#m")) {
              return;
@@ -105,7 +105,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("F#") || keyName.equals("D#m")) {
             return;
@@ -118,7 +118,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(1));
+                        accidentalPitch.octaveTranspose(i).transpose(1));
         }
         if( keyName.equals("C#") || keyName.equals("A#m")) {
             return;
@@ -135,7 +135,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("F") || keyName.equals("D")) {
             return;
@@ -148,7 +148,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Bb") || keyName.equals("G")) {
             return;
@@ -161,7 +161,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Eb") || keyName.equals("Cm")) {
             return;
@@ -174,7 +174,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Ab") || keyName.equals("Fm")) {
             return;
@@ -187,7 +187,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Db") || keyName.equals("Bbm")) {
             return;
@@ -200,7 +200,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Gb") || keyName.equals("Ebm")) {
             return;
@@ -213,7 +213,7 @@ public class KeySignature {
         // Map the octaves, up to 5 octaves up and down
         for(int i = -numSupportedOctaves; i < numSupportedOctaves; i++){
             pitchMap.put(accidentalPitch.octaveTranspose(i),
-                        accidentalPitch.octaveTranspose(i).accidentalTranspose(-1));
+                        accidentalPitch.octaveTranspose(i).transpose(-1));
         }
         if( keyName.equals("Cb") || keyName.equals("Abm")) {
             return;

@@ -1,8 +1,4 @@
-package sound;
-
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
+package musicRepresentation;
 
 import grammar.ABCMusicListener;
 import grammar.ABCMusicParser.Abc_headerContext;
@@ -47,6 +43,10 @@ import grammar.ABCMusicParser.Tuplet_elementContext;
 import grammar.ABCMusicParser.Valid_letterContext;
 import grammar.ABCMusicParser.Valid_noteContext;
 import grammar.ABCMusicParser.Valid_text_with_numberContext;
+
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class ABCMusicParseListener implements ABCMusicListener {
 

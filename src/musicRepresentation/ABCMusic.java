@@ -18,7 +18,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import sound.ABCMusicParseListener;
 import sound.Syllable;
 
 public class ABCMusic {

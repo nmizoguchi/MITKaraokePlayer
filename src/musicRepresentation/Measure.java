@@ -2,6 +2,9 @@ package musicRepresentation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import sound.Pitch;
 
 /**
  * Represents a Measure.
@@ -38,8 +41,8 @@ public class Measure {
             // If we are dealing with a Chord instance, we need to work on it (not on a Rest!)
             if (sUnit instanceof Chord) {
                 // Then, we iterate over all notes inside our Chord.
-                for (Note note : sUnit.getListOfNotesInChord()) {
-                    if (note.getPitch().hasAccidental()) {
+                for (Note note : ((Chord) sUnit).getListOfNotesInChord()) {
+                    if (note.getPitch().isHasAccidental()) {
                         // If the actual note being iterated has an Accidental, we need to update
                         // the
                         // measureSignature map!
@@ -101,7 +104,7 @@ public class Measure {
      * @return a list of Strings excluding the Strings that weren’t matched.
      */
     List<String> applyLyrics(List<String> originalListOfStrings) {
-
+        return null;
     }
 
 }
