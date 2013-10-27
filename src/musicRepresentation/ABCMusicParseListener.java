@@ -45,6 +45,8 @@ import grammar.ABCMusicParser.Valid_letterContext;
 import grammar.ABCMusicParser.Valid_noteContext;
 import grammar.ABCMusicParser.Valid_text_with_numberContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -158,8 +160,39 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitMulti_note(Multi_noteContext ctx) {
-        // TODO Auto-generated method stub
-        
+		// When we exit a multi_note, we will instantiate a Chord object that
+		// contains the Notes. According to the new specifications, the first
+		// note of a chords dictates the length of all other notes inside the
+		// chord. This is going to be handled as follows: as the first element
+		// to enter a Stack is the last to get out, the last Note to be popped
+		// out will be the first Note in the Chord, which is responsible for
+		// informing the whole Chord length. To do this, we will instantiate a
+		// temporary list and pop the Notes from the stack in order to prepend
+		// to this temporary list until we reach the SQ_BRACKET_OPEN token. At
+		// this point, we instantiate a Chord object, passing in the List<Note>.
+		// The Chord constructor will correctly set the length of the notes in
+		// the Chord.
+    	
+    	// multi_note : SQ_BRACKET_OPEN note+ SQ_BRACKET_CLOSE;
+    	
+    	// don't want to get the ']' at the end so -2
+    	int i = ctx.getChildCount() - 2;
+    	
+    	// instantiate a temporary Array to hold the Notes in the Chord
+    	List<Note> noteList = new ArrayList<Note>();
+    	
+    	// throw away the ']' token
+       	stack.pop();
+    	while (i > 0) {
+    		Note n = (Note) stack.pop();
+    		noteList.add(0, n); //prepend the Note to the list
+    		--i;
+    	}
+    	// throw away the '[' token
+    	stack.pop();
+    	
+    	Chord c = new Chord(noteList);
+    	stack.push(c);
     }
 
     @Override
@@ -193,9 +226,21 @@ public class ABCMusicParseListener implements ABCMusicListener {
     }
 
     @Override
-    public void exitNote_element(Note_elementContext ctx) {
-        // TODO Auto-generated method stub
-        
+    public void exitNote_element(Note_elementContext ctx) {    	
+		// When we exit a note_element, the top of the stack is either a Rest,
+		// Note, or Chord. If it is a Chord or Rest, then we don't need to
+		// change it. If it is a Note, we instantiate a single-note Chord object
+		// and push that onto the stack. We now only have Chords and Rests!
+   	
+    	// note_element : note | multi_note;
+    	
+    	if (stack.peek() instanceof Note) {
+    		Note n = (Note) stack.pop();
+    		List<Note> noteList = new ArrayList<Note>();
+    		noteList.add(n);
+    		Chord c = new Chord(noteList);
+    		stack.push(c);
+    	}
     }
 
     @Override
