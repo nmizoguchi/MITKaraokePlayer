@@ -601,8 +601,9 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitField_title(Field_titleContext ctx) {
-        // TODO Auto-generated method stub
-        
+        for(int i=0; i < ctx.getChildCount(); i++)
+            // Put initially T: and then the String representing Title
+            stack.push(ctx.getChild(i).getText());
     }
 
     @Override
