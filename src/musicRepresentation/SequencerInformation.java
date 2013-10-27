@@ -8,12 +8,17 @@ import java.util.List;
  *
  */
 public class SequencerInformation {
+    private int beatsPerMinute;
+    private int ticksPerBeat;
     private List<MidiNoteRepresentation> midiNotes;
     private List<Syllable> syllables;
     
-    SequencerInformation(List<MidiNoteRepresentation> midiNotes, List<Syllable> syllables){
+    SequencerInformation(List<MidiNoteRepresentation> midiNotes, List<Syllable> syllables,
+            int beatsPerMinute, int ticksPerBeat) {
         this.midiNotes = midiNotes;
         this.syllables = syllables;
+        this.beatsPerMinute = beatsPerMinute;
+        this.ticksPerBeat = ticksPerBeat;
     }
     
     /**
@@ -30,6 +35,20 @@ public class SequencerInformation {
      */
     public List<Syllable> getSyllables() {
         return syllables;
+    }
+
+    /**
+     * @return The number of beats per minute.
+     */
+    public int getBeatsPerMinute() {
+        return beatsPerMinute;
+    }
+
+    /**
+     * @return The number of ticks per beat.
+     */
+    public int getTicksPerBeat() {
+        return ticksPerBeat;
     }
     
 }
