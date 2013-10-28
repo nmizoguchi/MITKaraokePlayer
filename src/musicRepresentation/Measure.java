@@ -17,21 +17,26 @@ import sound.Pitch;
 public class Measure {
     private List<SoundUnit> listOfSoundUnits;
     private String beginningBarLine;
-    private String endingBarLine;
-    
+    private String endingBarLine;    
 
     /**
-     * Creates a new Measure and applies the key signature to its chords.
-     * 
-     * @param keySignature
-     *            the corresponding key signature for the measure
-     * @param chordsAndRestsInMeasure
-     *            a list of the sound units (chords and rests) that compose the measure. Must be
-     *            non-empty.
-     * @param endingBarLine
-     *            a String representing the ending bar line. Requires a valid bar line (can be "|",
-     *            "||", "|]", "[|", ":|", "|:").
-     */
+	 * Creates a new Measure and applies the key signature to its chords.
+	 * 
+	 * @param keySignature
+	 *            the corresponding key signature for the measure
+	 * @param chordsAndRestsInMeasure
+	 *            a list of the sound units (chords and rests) that compose the
+	 *            measure. Must be non-empty.
+	 * @param beginningBarLine
+	 *            a String representing the beginning bar line. Should be "[|",
+	 *            "|:", "[1", or "[2". A [1 can also appear midway through a
+	 *            measure. In that case, the [1 is still stored as a
+	 *            beginningBarLine but beginFirstAlternateEnding is set to a
+	 *            nonzero int.
+	 * @param endingBarLine
+	 *            a String representing the ending bar line. Requires a valid
+	 *            bar line (can be "|", "||", "|]", ":|").
+	 */
     Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String endingBarLine) {
         // Assigning the endingBarLine.
         this.endingBarLine = endingBarLine;
@@ -86,6 +91,11 @@ public class Measure {
     }
     
     Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String beginningBarLine, String endingBarLine) {
+        this(keySignature, chordsAndRestsInMeasure, endingBarLine);
+        this.beginningBarLine = beginningBarLine;
+    }
+    
+    Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String beginningBarLine, int beginFirstAlternateEnding, String endingBarLine) {
         this(keySignature, chordsAndRestsInMeasure, endingBarLine);
         this.beginningBarLine = beginningBarLine;
     }
