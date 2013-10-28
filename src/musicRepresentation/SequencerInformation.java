@@ -1,5 +1,6 @@
 package musicRepresentation;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,4 +52,17 @@ public class SequencerInformation {
         return ticksPerBeat;
     }
     
+    @Override
+    public String toString() {
+        String s = "Beats per minute: "+beatsPerMinute+"\n";
+        s = s.concat("Ticks per beat: "+getTicksPerBeat()+"\n");
+        s = s.concat("Notes:\n");
+        
+        Iterator<MidiNoteRepresentation> it = this.midiNotes.iterator();
+        while(it.hasNext()){
+            MidiNoteRepresentation note = it.next();
+            s = s.concat(note.toString()+" ");
+        }
+        return s;
+    }
 }

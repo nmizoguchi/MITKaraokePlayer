@@ -306,7 +306,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
         int ticksPerBeat = (int) (leastCommonTick * defaultNoteLength);
 
         this.header = new ABCHeader(title, composer, beatsPerMinute,
-                bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat,
+                bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat, beatsPerMeasure,
                 defaultNoteLength, key);
         
         stack.push(this.header);
