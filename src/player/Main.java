@@ -35,7 +35,7 @@ public class Main {
             System.out.println("File "+ file +" not found!");
             return;
         }
-        
+
         SequencerInformation myInfo = myTune.constructSequencerInformation();
 
         // Create a new player, with 120 beats per minute, 2 ticks per beat
@@ -80,13 +80,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        try{
-            play("sample_abc/sample3.abc");
-        }
-    
-        catch(RuntimeException e) {
-            System.out.println("Invalid file.");
-            System.out.println(e.toString());
-        }
+            play("sample_abc/piece1.abc");
     }
 }

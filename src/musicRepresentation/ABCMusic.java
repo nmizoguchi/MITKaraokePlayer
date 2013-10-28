@@ -73,8 +73,8 @@ public class ABCMusic {
         // AST
         // have to initialize all variables
         //TODO: When parsed correctly, remove comment
-        //this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
-        //this.header = ((ABCMusicParseListener) listener).getHeader();
+        this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
+        this.header = ((ABCMusicParseListener) listener).getHeader();
     }
 
     /** 
@@ -100,7 +100,7 @@ public class ABCMusic {
          */
         
         // Creates the lists of voices by getting them from the map
-        List<Voice> voices = (ArrayList<Voice>) voiceMap.values();
+        List<Voice> voices = new ArrayList<Voice>(voiceMap.values());
         
         // Creates lists to store information to create the SequencerInformation
         List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
@@ -139,8 +139,7 @@ public class ABCMusic {
                         lyrics.add(new Syllable(((Chord) sound).getSyllable(),startTick));
                         
                         // Creates an iterator to iterate through each note
-                        Iterator<Note> chordIterator =
-                                (Iterator<Note>) ((Chord)sound).getListOfNotesInChord();
+                        Iterator<Note> chordIterator = ((Chord)sound).getListOfNotesInChord().iterator();
                         
                         // Add each note in chord
                         while(chordIterator.hasNext()){

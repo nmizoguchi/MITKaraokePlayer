@@ -181,7 +181,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 previousVoice = voiceMap.get(current.getVoiceName());
             }
         }
-
+        stack.push(voiceMap);
     }
 
     @Override
@@ -306,6 +306,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
         this.header = new ABCHeader(title, composer, beatsPerMinute,
                 bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat,
                 defaultNoteLength, key);
+        
+        stack.push(this.header);
     }
 
     @Override
@@ -745,7 +747,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
                             || ctxText.equals("|]")
                             || ctxText.equals(":|")) {
                     // Subcase 2b: Barline is at the end of a measure
-                    if (stack.peek() instanceof Chord
+                    if (!stack.isEmpty() && stack.peek() instanceof Chord
                                     || stack.peek() instanceof Rest) {
                             List<SoundUnit> listOfSoundUnits = new ArrayList<SoundUnit>();
                             // pop from the stack as long as the top of the stack is a Chord or Rest
