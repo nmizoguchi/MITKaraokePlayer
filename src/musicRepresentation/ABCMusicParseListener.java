@@ -825,7 +825,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void enterMid_tune_field(Mid_tune_fieldContext ctx) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
@@ -895,9 +895,10 @@ public class ABCMusicParseListener implements ABCMusicListener {
         while (stack.peek() instanceof Measure) {
             measureList.add(0, (Measure) stack.pop());
         }
-
+        
         if (stack.peek() instanceof String) {
             voiceName = (String) stack.pop();
+            System.out.println("Voice: "+voiceName);
         }
         Iterator<Measure> measureIterator = measureList.iterator();
 
@@ -1192,13 +1193,13 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void enterField_voice(Field_voiceContext ctx) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void exitField_voice(Field_voiceContext ctx) {
-        // TODO Auto-generated method stub
-
+        // field_voice : FIELD_V SPACE* valid_text_with_number end_of_line;
+        stack.push(ctx.valid_text_with_number().getText());
     }
 
 	@Override
