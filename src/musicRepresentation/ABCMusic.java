@@ -63,7 +63,7 @@ public class ABCMusic {
         tree = parser.line(); // "line" is the starter rule.
 
         // // DRAW THE THREE
-        ((RuleContext)tree).inspect(parser);
+        //((RuleContext)tree).inspect(parser);
 
         // Walk the tree with the listener.
         ParseTreeWalker walker = new ParseTreeWalker();
