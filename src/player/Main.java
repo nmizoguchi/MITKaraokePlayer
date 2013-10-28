@@ -45,8 +45,12 @@ public class Main {
         // Create a new player, with 120 beats per minute, 2 ticks per beat
         // and a LyricListener that prints each lyric that it sees.
         LyricListener listener = new LyricListener() {
+            private int counter = 0;
             public void processLyricEvent(String text) {
-                System.out.println(text);
+                counter = (counter+1)%12;
+                if(counter == 0)
+                    System.out.println("");
+                System.out.print(text);
             }
         };
         
@@ -84,6 +88,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-            play("sample_abc/invention.abc");
+            play("sample_abc/piece3.abc");
     }
 }
