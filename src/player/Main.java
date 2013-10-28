@@ -1,5 +1,6 @@
 package player;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -88,10 +89,10 @@ public class Main {
             // Adding all Syllables
             for (Syllable s : sequencerInfo.getSyllables())
                 player.addLyricEvent(s.getSyllable(), s.getStartTick());
-        
-            player.addLyricEvent(myTune.getTitle().concat("\n"), 0);
-            player.addLyricEvent(myTune.getComposer().concat("\n"), 0);
         }
+        
+        player.addLyricEvent("\n"+myTune.getTitle().concat("\n"), 0);
+        player.addLyricEvent(myTune.getComposer().concat("\n"), 0);
         
         try {
             player.play();
@@ -103,7 +104,33 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
-        play("sample_abc/piece3.abc");
+    public static void main(String[] args) throws IOException {
+        // Directory path here
+        String path = "sample_abc/"; 
+       
+        String files;
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles(); 
+       
+        System.out.println("\nList of available files:\n");
+        
+        for (int i = 0; i < listOfFiles.length; i++) 
+        {
+       
+         if (listOfFiles[i].isFile()) 
+         {
+         files = listOfFiles[i].getName();
+             if (files.endsWith(".abc") || files.endsWith(".ABC"))
+             {
+                System.out.println(i+": "+files);
+              }
+           }
+        }
+        
+        System.out.print("\nChoose a file number to play: ");
+        // TODO: Reads only one byte. FIX THIS!
+        int fileNumber = System.in.read() - '0';
+        
+        play(path+listOfFiles[fileNumber].getName());
     }
 }
