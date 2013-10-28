@@ -107,4 +107,10 @@ public class Note {
         return this.pitch.equals(that.pitch)
             && this.durationMultiplier == that.durationMultiplier;
     }
+    
+    @Override
+    public String toString() {
+    	String string = "" + pitch.toString() + durationMultiplier;
+    	return string;
+    }
 }
