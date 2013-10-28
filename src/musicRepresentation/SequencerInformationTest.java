@@ -38,7 +38,7 @@ public class SequencerInformationTest {
         syllables.add(new Syllable("", 50));
         syllables.add(new Syllable("mess", 20));
         
-        SequencerInformation seqInfo = new SequencerInformation(midiNotes, syllables, bitsPerMinute, ticksPerBeat);
+        SequencerInformation seqInfo = new SequencerInformation("Voice name", midiNotes, syllables);
     }
     
     /**
@@ -66,7 +66,7 @@ public class SequencerInformationTest {
         
         List<Syllable> syllablesParameter = new ArrayList<Syllable>(syllables);
         
-        SequencerInformation seqInfo = new SequencerInformation(midiNotesParameter, syllablesParameter, bitsPerMinute, ticksPerBeat);
+        SequencerInformation seqInfo = new SequencerInformation("Voice name", midiNotesParameter, syllablesParameter);
         
         assertArrayEquals(midiNotes.toArray(), seqInfo.getMidiNotes().toArray());
         assertArrayEquals(syllables.toArray(), seqInfo.getSyllables().toArray());

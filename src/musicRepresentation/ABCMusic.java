@@ -73,93 +73,101 @@ public class ABCMusic {
         // ABCMusicParseListener() has methods to get all information from the
         // AST
         // have to initialize all variables
-        //TODO: When parsed correctly, remove comment
+        // TODO: When parsed correctly, remove comment
         this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
         this.header = ((ABCMusicParseListener) listener).getHeader();
     }
 
-    /** 
+    /**
      * Transform the representation of the .abc file into information to be
      * passed to a SequencePlayer. It goes through all voices, returning the
      * representation of each note as a MidiNoteRepresentation in the list.
      * 
      * @return an instance of SequencerInformation
      */
-    public SequencerInformation constructSequencerInformation() {
-        
+    public List<SequencerInformation> constructSequencerInformation() {
+
         // Build beatsPerMinute in the default length note:
         int bpmDefaultLength;
-        bpmDefaultLength = (int) ((header.getBpmNoteLength()/header.getDefaultNoteLength())*
-                                                                header.getBeatsPerMinute());
+        bpmDefaultLength = (int) ((header.getBpmNoteLength() / header
+                .getDefaultNoteLength()) * header.getBeatsPerMinute());
         /*
-         * Get all notes and syllables from ABCMusic as MidiNoteRep and Syllables.
+         * Get all notes and syllables from ABCMusic as MidiNoteRep and
+         * Syllables.
          * 
-         * Strategy:
-         * For each voice, iterate through all the notes keeping track
+         * Strategy: For each voice, iterate through all the notes keeping track
          * of the StartTick. StartTick and the duration of each note is
          * calculated from the meter and the note length, found in the ABCHeader
          */
-        
+
+        List<SequencerInformation> info = new ArrayList<SequencerInformation>();
+
         // Creates the lists of voices by getting them from the map
         List<Voice> voices = new ArrayList<Voice>(voiceMap.values());
-        
+
         // Creates lists to store information to create the SequencerInformation
         List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
         List<Syllable> lyrics = new ArrayList<Syllable>();
-        
+
         // Define parameters
         int startTick = 0;
         int ticksPerBeat = header.getTicksPerBeat();
         Iterator<Voice> voicesIterator = voices.iterator();
-        
-        // Iterates through all voices in the piece
-        // TODO: We can change this method to get notes and syllables for each voice!
-        while(voicesIterator.hasNext()) {
+
+        /*
+         * Iterates through all voices in the piece creating a
+         * sequencerInformation for each voice, puting each one as an element in
+         * the list */
+        while (voicesIterator.hasNext()) {
             startTick = 0;
             Voice currentVoice = voicesIterator.next();
-            
-            System.out.println(currentVoice.getVoiceName());
-            Iterator<Measure> measuresIterator = currentVoice.getListOfMeasures().iterator();
-            
+
+            Iterator<Measure> measuresIterator = currentVoice
+                    .getListOfMeasures().iterator();
+
             // Iterates through all measures in the voice
-            while(measuresIterator.hasNext()) {
-                
+            while (measuresIterator.hasNext()) {
+
                 Measure currentMeasure = measuresIterator.next();
-                Iterator<SoundUnit> soundUnitsIterator =
-                        currentMeasure.getListOfSoundUnits().iterator();
-                
+                Iterator<SoundUnit> soundUnitsIterator = currentMeasure
+                        .getListOfSoundUnits().iterator();
+
                 // Iterate through each SoundUnit in the measure
-                while(soundUnitsIterator.hasNext()) {
+                while (soundUnitsIterator.hasNext()) {
                     SoundUnit sound = soundUnitsIterator.next();
-                    // Calculate the equivalent of the note duration in number of ticks
-                    int numTicks = (int) (sound.getDurationMultiplier()*
-                            ( header.getDefaultNoteLength()/header.getBpmNoteLength() )*
-                            ticksPerBeat);
-                    
+                    // Calculate the equivalent of the note duration in number
+                    // of ticks
+                    int numTicks = (int) (sound.getDurationMultiplier()
+                            * (header.getDefaultNoteLength() / header
+                                    .getBpmNoteLength()) * ticksPerBeat);
+
                     // If it is a chord
                     if (sound instanceof Chord) {
                         // Build the lyrics list first
-                        lyrics.add(new Syllable(((Chord) sound).getSyllable(),startTick));
-                        
+                        lyrics.add(new Syllable(((Chord) sound).getSyllable(),
+                                startTick));
+
                         // Creates an iterator to iterate through each note
-                        Iterator<Note> chordIterator = ((Chord)sound).getListOfNotesInChord().iterator();
-                        
+                        Iterator<Note> chordIterator = ((Chord) sound)
+                                .getListOfNotesInChord().iterator();
+
                         // Add each note in chord
-                        while(chordIterator.hasNext()){
+                        while (chordIterator.hasNext()) {
                             Note note = chordIterator.next();
-                            MidiNoteRepresentation midiNote =
-                                    new MidiNoteRepresentation(note.getPitch(), startTick, numTicks);
+                            MidiNoteRepresentation midiNote = new MidiNoteRepresentation(
+                                    note.getPitch(), startTick, numTicks);
                             midiNotes.add(midiNote);
                         }
                     }
-                    
+
                     // If it is a rest just update startTick
                     startTick += numTicks;
                 }
             }
+            info.add(new SequencerInformation(currentVoice.getVoiceName(), midiNotes, lyrics));
         }
-        
-        return new SequencerInformation(midiNotes, lyrics, header.getBeatsPerMinute(),ticksPerBeat);
+
+        return info;
     }
 
     /**
@@ -178,6 +186,14 @@ public class ABCMusic {
      */
     public String getComposer() {
         return header.getComposer();
+    }
+    
+    public int getBeatsPerMinute() {
+        return header.getBeatsPerMinute();
+    }
+    
+    public int getTicksPerBeat() {
+        return header.getTicksPerBeat();
     }
 
     /**
@@ -206,18 +222,18 @@ public class ABCMusic {
 
         return buffer;
     }
-    
+
     @Override
     public String toString() {
-        String s = this.header.toString()+"\n";
+        String s = this.header.toString() + "\n";
         List<Voice> voiceList = new ArrayList<Voice>(voiceMap.values());
         Iterator<Voice> iterator = voiceList.iterator();
-        
-        while(iterator.hasNext()) {
+
+        while (iterator.hasNext()) {
             Voice voice = iterator.next();
-            s = s.concat(voice.toString()+"\n");
+            s = s.concat(voice.toString() + "\n");
         }
-        
+
         return s;
     }
 }
