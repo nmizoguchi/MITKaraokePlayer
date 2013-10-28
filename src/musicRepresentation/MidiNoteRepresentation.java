@@ -39,4 +39,9 @@ public class MidiNoteRepresentation {
     public int getNumTicks() {
         return numTicks;
     }
+    
+    @Override
+    public String toString() {
+        return this.pitch.toString()+"("+this.startTick+","+this.numTicks+")";
+    }
 }

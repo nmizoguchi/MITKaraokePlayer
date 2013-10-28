@@ -17,13 +17,14 @@ public class ABCHeader {
     private KeySignature keySignature;
     
     public ABCHeader(String title, String composer,int beatsPerMinute, double bpmNoteLength,
-                        int ticksPerBeat, double whatNoteGetsTheBeat,
+                        int ticksPerBeat, double whatNoteGetsTheBeat, int beatsPerMeasure,
                         double defaultNoteLength, String key) {
         this.title = title;
         this.composer = composer;
         this.beatsPerMinute = beatsPerMinute;
         this.ticksPerBeat = ticksPerBeat;
         this.whatNoteGetsTheBeat = whatNoteGetsTheBeat;
+        this.beatsPerMeasure = beatsPerMeasure;
         this.defaultNoteLength = defaultNoteLength;
         this.bpmNoteLength = bpmNoteLength;
         this.keySignature = new KeySignature(key);
