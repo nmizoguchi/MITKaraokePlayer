@@ -36,6 +36,8 @@ public class Main {
             return;
         }
 
+        System.out.println("ABCMusic: "+myTune.toString() );
+        
         SequencerInformation myInfo = myTune.constructSequencerInformation();
 
         // Create a new player, with 120 beats per minute, 2 ticks per beat
@@ -69,17 +71,17 @@ public class Main {
         
         player.addLyricEvent(myTune.getTitle(), 0);
         player.addLyricEvent(myTune.getComposer(), 0);
-        try {
-            player.play();
-        } catch (MidiUnavailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return;
-        }
+//        try {
+//            player.play();
+//        } catch (MidiUnavailableException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return;
+//        }
         
     }
 
     public static void main(String[] args) {
-            play("sample_abc/waxies_dargle.abc");
+            play("sample_abc/piece2.abc");
     }
 }
