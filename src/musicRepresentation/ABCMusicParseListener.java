@@ -61,6 +61,7 @@ import sound.Pitch;
 public class ABCMusicParseListener implements ABCMusicListener {
 
     private static Stack<Object> stack = new Stack<Object>();
+    private static ABCHeader header;
 
     public ABCHeader getHeader() {
         return (ABCHeader) stack.pop();
@@ -301,12 +302,9 @@ public class ABCMusicParseListener implements ABCMusicListener {
                                     // triplets)
         int ticksPerBeat = (int) (leastCommonTick * defaultNoteLength);
 
-        ABCHeader header = new ABCHeader(title, composer, beatsPerMinute,
+        this.header = new ABCHeader(title, composer, beatsPerMinute,
                 bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat,
                 defaultNoteLength, key);
-
-        // Push header to the stack
-        stack.push(header);
     }
 
     @Override
@@ -471,7 +469,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitAbc_tune(Abc_tuneContext ctx) {
-        // TODO Auto-generated method stub
 
     }
 
