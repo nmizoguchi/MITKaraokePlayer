@@ -1015,11 +1015,11 @@ public class ABCMusicParseListener implements ABCMusicListener {
                     sb.setLength(0);
                 } else if (s.charAt(i) == '*') {
                     separatingSpecialChars.add(sb.toString());
-                    separatingSpecialChars.add("* ");
+                    separatingSpecialChars.add("*");
                     sb.setLength(0);
                 } else if (s.charAt(i) == '|') {
                     separatingSpecialChars.add(sb.toString());
-                    separatingSpecialChars.add("| ");
+                    separatingSpecialChars.add("|");
                     sb.setLength(0);
                 } else {
                     sb.append(s.charAt(i));
