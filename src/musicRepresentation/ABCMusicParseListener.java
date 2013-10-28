@@ -319,7 +319,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
         int leastCommonTick = 1536; // 3*2^9 (Covers really short beats and also
                                     // triplets)
-        int ticksPerBeat = (int) (leastCommonTick * defaultNoteLength);
+        int ticksPerBeat = leastCommonTick;
 
         this.header = new ABCHeader(title, composer, beatsPerMinute,
                 bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat, beatsPerMeasure,

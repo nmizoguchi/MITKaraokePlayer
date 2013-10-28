@@ -40,6 +40,8 @@ public class Main {
         
         SequencerInformation myInfo = myTune.constructSequencerInformation();
 
+        System.out.println("SeqInfo: "+myInfo.toString() );
+        
         // Create a new player, with 120 beats per minute, 2 ticks per beat
         // and a LyricListener that prints each lyric that it sees.
         LyricListener listener = new LyricListener() {
@@ -82,6 +84,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-            play("sample_abc/fur_elise.abc");
+            play("sample_abc/invention.abc");
     }
 }

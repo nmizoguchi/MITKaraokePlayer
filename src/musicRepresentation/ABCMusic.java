@@ -133,7 +133,7 @@ public class ABCMusic {
                     SoundUnit sound = soundUnitsIterator.next();
                     // Calculate the equivalent of the note duration in number of ticks
                     int numTicks = (int) (sound.getDurationMultiplier()*
-                            ( header.getDefaultNoteLength()/header.getWhatNoteGetsTheBeat() )*
+                            ( header.getDefaultNoteLength()/header.getBpmNoteLength() )*
                             ticksPerBeat);
                     
                     // If it is a chord
@@ -159,7 +159,7 @@ public class ABCMusic {
             }
         }
         
-        return new SequencerInformation(midiNotes, lyrics, bpmDefaultLength,ticksPerBeat);
+        return new SequencerInformation(midiNotes, lyrics, header.getBeatsPerMinute(),ticksPerBeat);
     }
 
     /**
