@@ -105,4 +105,15 @@ public class Chord implements SoundUnit {
             && this.chordDurationMultiplier == that.chordDurationMultiplier
             && this.listOfNotesInChord.equals(that.listOfNotesInChord);
     }
+	
+	@Override
+	public String toString() {
+		// the syllable is not currently printed in the toString() method
+		String string = "[";
+		for (Note n:listOfNotesInChord) {
+			string += " " + n.toString();
+		}
+		string += "]";
+		return string;
+	}
 }
