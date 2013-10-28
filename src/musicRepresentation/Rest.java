@@ -47,4 +47,10 @@ public class Rest implements SoundUnit{
         Rest that = (Rest) obj;
         return this.durationMultiplier == that.durationMultiplier;
     }
+	
+	@Override
+	public String toString() {
+	    String s = "z"+this.durationMultiplier;
+	    return s;
+	}
 }

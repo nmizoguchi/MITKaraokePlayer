@@ -203,4 +203,18 @@ public class ABCMusic {
 
         return buffer;
     }
+    
+    @Override
+    public String toString() {
+        String s = this.header.toString()+"\n";
+        List<Voice> voiceList = new ArrayList<Voice>(voiceMap.values());
+        Iterator<Voice> iterator = voiceList.iterator();
+        
+        while(iterator.hasNext()) {
+            Voice voice = iterator.next();
+            s = s.concat(voice.toString()+"\n");
+        }
+        
+        return s;
+    }
 }
