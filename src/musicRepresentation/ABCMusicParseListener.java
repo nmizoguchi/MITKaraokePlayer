@@ -46,6 +46,7 @@ import grammar.ABCMusicParser.Valid_noteContext;
 import grammar.ABCMusicParser.Valid_text_with_numberContext;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +65,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
     private static ABCHeader header;
 
     public ABCHeader getHeader() {
-        return (ABCHeader) stack.pop();
+        return header;
     }
 
     public Map<String, Voice> getVoiceMap() {
@@ -147,33 +148,33 @@ public class ABCMusicParseListener implements ABCMusicListener {
          * as said by the instructor (Piazza @517) all lyrics will be played
          * simultaneously, so there is no "Main lyric" to be played.
          */
-        Map<String,Voice> voiceMap = new HashMap<String,Voice>();
-        
+        Map<String, Voice> voiceMap = new HashMap<String, Voice>();
+
         Voice previousVoice = new Voice("", new ArrayList<Measure>());
-        
+
         voiceMap.put("", previousVoice);
-        
+
         // Build voiceList with voices in the Stack
         List<Voice> voiceList = new ArrayList<Voice>();
-        while(stack.peek() instanceof Voice) {
-            voiceList.add(0,(Voice)stack.pop());
+        while (stack.peek() instanceof Voice) {
+            voiceList.add(0, (Voice) stack.pop());
         }
-        
+
         Iterator<Voice> voiceIterator = voiceList.iterator();
-        
+
         // For each voice in the list
-        while(voiceIterator.hasNext()) {
+        while (voiceIterator.hasNext()) {
             Voice current = voiceIterator.next();
-            
+
             // If we don't know which voice it is, use the
             // previous voice to extend.
-            if(current.getVoiceName().equals("")){
+            if (current.getVoiceName().equals("")) {
                 previousVoice.extend(current);
             } else {
                 Voice originalVoice = voiceMap.get(current.getVoiceName());
-                if(originalVoice == null) {
+                if (originalVoice == null) {
                     voiceMap.put(current.getVoiceName(), current);
-                
+
                 } else {
                     originalVoice.extend(current);
                 }
@@ -469,7 +470,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitAbc_tune(Abc_tuneContext ctx) {
-
+        /* At this point we only have the voiceMap in the list The user can get this information by calling the method getVoiceMap() */
     }
 
     @Override
@@ -720,8 +721,65 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitElement(ElementContext ctx) {
-        // TODO Auto-generated method stub
-
+    // We call ctx.getChild(0).getText().
+    // Case 1: If it is " " then we ignore it. This signals that it was a SPACE token.
+    // Case 2: If it is "|", "||", "|]", ":|", then we call stack.peek(). There are two subcases:
+    //              Subcase 2a: The barline is at the beginning barline of the abc_line if stack.peek() does not
+    //              return a Chord or Rest object. Since this barline encodes no useful information, we ignore it.
+    //              Subcase 2b: The barline is at the end of a measure if stack.peek() returns a Chord or Rest object.
+    //              This means that every Chord and Rest not part of a Measure is part of this new Measure. We instantiate
+    //              a temporary List<SoundUnit> and pop from the main stack if stack.peek() returns an instanceof Chord or Rest.
+    //              We prepend Chords and Rests to the temporary list. We also check if the new measure has a beginningBarLine
+    //              ("[|", "|:", "[1", "[2") by calling stack.peek(). If that returns a String object, that means that it is the
+    //              beginningBarLine so we call stack.pop(). We instantiate a measure, passing in the temporary list, the endingBarLine,
+    //              and the beginningBarLine if it exists. We push it to the stack.
+    // Case 3: If it is "[|", "|:", "[1", "[2" we are at the beginning of a new section. We push the String to the stack.
+    // Case 4: If it is not one of the above, then a Chord or Rest is on the stack. We're not at the end of a Measure, so we do nothing. 
+           
+    // element : note_element | tuplet_element | BARLINE | NTH_REPEAT | SPACE;
+            String ctxText = ctx.getChild(0).getText();
+            // Case 1: Do Nothing.
+            // Case 2
+            if (ctxText.equals("|")
+                            || ctxText.equals("||")
+                            || ctxText.equals("|]")
+                            || ctxText.equals(":|")) {
+                    // Subcase 2b: Barline is at the end of a measure
+                    if (stack.peek() instanceof Chord
+                                    || stack.peek() instanceof Rest) {
+                            List<SoundUnit> listOfSoundUnits = new ArrayList<SoundUnit>();
+                            // pop from the stack as long as the top of the stack is a Chord or Rest
+                            while (stack.peek() instanceof Chord
+                                            || stack.peek() instanceof Rest) {
+                                    SoundUnit newSoundUnit = (SoundUnit) stack.pop();
+                                    listOfSoundUnits.add(0, newSoundUnit);
+                            }
+                            // Measure has a beginningBarLine
+                            if (stack.peek() instanceof String) {
+                                    String beginningBarLine = (String) stack.pop();
+                                    Measure m = new Measure(header.getKeySignature(), listOfSoundUnits, beginningBarLine, ctxText);
+                                    stack.push(m);
+                            }
+                           
+                            // Measure does not have a beginningBarLine
+                            else {
+                                    Measure m = new Measure(header.getKeySignature(), listOfSoundUnits, ctxText);
+                                    stack.push(m);
+                            }
+                    }
+                   
+                    // Subcase 2a: Do Nothing.
+            }
+           
+            // Case 3
+            if (ctxText.equals("[|")
+                            || ctxText.equals("|:")
+                            || ctxText.equals("[1")
+                            || ctxText.equals("[2")) {
+                    stack.push(ctxText);
+            }
+           
+            // Case 4: Do nothing.         
     }
 
     @Override
@@ -797,7 +855,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
          */
         // Get the list of syllables
         String voiceName = "";
-        List<String> lyrics = (List<String>) stack.pop();
+        List<String> lyrics;
+        if(stack.peek() instanceof ArrayList<?>){
+            lyrics = (ArrayList<String>)stack.pop();
+        } else {
+            lyrics = new ArrayList<String>();
+        }
         List<Measure> measureList = new ArrayList<Measure>();
 
         // Create the list of Measure
@@ -876,10 +939,79 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitLyric(LyricContext ctx) {
-        // TODO Auto-generated method stub
-
+        //System.out.println("lyric:"+ctx.getText());
+       
+        //On this method, we are:
+        // --------------------------------------------------------------
+        //1st - removing the w: from the line
+        //2nd - creating an Array of strings, using spaces as separators
+        //3rd - converting that Array to an ArrayList.        
+        List<String> mySyllablesInitial = new ArrayList<String>(Arrays.asList(ctx.getText().substring(2).split("\\s+")));
+ 
+        // --------------------------------------------------------------
+        //4th - replacing '\-' with '\\' and removing empty Strings from the List.
+        // "A-ma-zi-ng gra\-ce!" becomes "A-ma-zi-ng","gra\\ce!"
+        List<String> mySyllablesBeforeTreatingHyphens = new ArrayList<String>();
+        for(String s : mySyllablesInitial)
+            mySyllablesBeforeTreatingHyphens.add(s.replace("\\-", "\\\\"));
+       
+        mySyllablesBeforeTreatingHyphens.removeAll(Arrays.asList("", null));
+       
+        // --------------------------------------------------------------
+        // 5th - we create a new List to receive hyphenized syllables.
+        List<String> mySyllablesAfterTreatingHyphens = new ArrayList<String>();
+       
+        // here we are treating words splitted with hyphens:
+        // "A-ma-zi-ng" becomes "A-","ma-","zi-","ng"
+       
+        for (String s : mySyllablesBeforeTreatingHyphens) {
+            List<String> tempList = new ArrayList<String>();
+            tempList = Arrays.asList(s.split("-"));
+            Iterator<String> tempIterator2 = tempList.iterator();
+            while (tempIterator2.hasNext()) {
+                String tempString = tempIterator2.next();
+                if (tempIterator2.hasNext()) {
+                    mySyllablesAfterTreatingHyphens.add(tempString + "-");
+                } else {
+                    mySyllablesAfterTreatingHyphens.add(tempString);
+                }
+            }
+        }
+       
+        // we should separate _ * | into new strings
+        List<String> separatingSpecialChars = new ArrayList<String>();
+        for (String s : mySyllablesAfterTreatingHyphens) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == '_') {
+                    separatingSpecialChars.add(sb.toString());
+                    separatingSpecialChars.add("_");
+                    sb.setLength(0);
+                } else if (s.charAt(i) == '*') {
+                    separatingSpecialChars.add(sb.toString());
+                    separatingSpecialChars.add("*");
+                    sb.setLength(0);
+                } else if (s.charAt(i) == '|') {
+                    separatingSpecialChars.add(sb.toString());
+                    separatingSpecialChars.add("|");
+                    sb.setLength(0);
+                } else {
+                    sb.append(s.charAt(i));
+                    if (i == s.length() - 1)
+                        separatingSpecialChars.add(sb.toString());
+                }
+            }
+        }
+ 
+        separatingSpecialChars.removeAll(Arrays.asList("", null));
+ 
+        // finally, we should convert ~ into spaces, and \\ into -
+        List<String> endingList = new ArrayList<String>();
+        for (String s : separatingSpecialChars)
+            endingList.add(s.replace("~", " ").replace("\\\\", "-"));
+       
+        stack.push(endingList);
     }
-
     @Override
     public void enterField_default_length(Field_default_lengthContext ctx) {
         // TODO Auto-generated method stub
