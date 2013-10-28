@@ -49,7 +49,7 @@ LOWERCASE_M : 'm';
 LOWERCASE_Z : 'z';
 CAPITAL_C : 'C';
 A_THROUGH_G: [A-Ga-g];
-OTHER_LETTER : [H-Zh-y!] | '.';
+OTHER_LETTER : [H-Zh-y!?] | '.';
 TILDE: '~';
 COMMENT_BEGIN: '%';
 FIELD_X: 'X:';
