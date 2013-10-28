@@ -1,6 +1,7 @@
 package musicRepresentation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -124,5 +125,16 @@ public class Voice {
         Voice that = (Voice) obj;
         return this.voiceName == that.voiceName
         		&& this.getListOfMeasures().equals(that.getListOfMeasures());
+    }
+    
+    @Override
+    public String toString() {
+        String s = "";
+        Iterator<Measure> iterator = this.listOfMeasures.iterator();
+        while(iterator.hasNext()) {
+            Measure measure = iterator.next();
+            s = s.concat(measure.toString()+" ");
+        }
+        return s;
     }
 }

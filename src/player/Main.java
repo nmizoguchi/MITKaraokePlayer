@@ -80,6 +80,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-            play("sample_abc/piece1.abc");
+            play("sample_abc/waxies_dargle.abc");
     }
 }
