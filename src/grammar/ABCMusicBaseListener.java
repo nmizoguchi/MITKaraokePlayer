@@ -84,6 +84,9 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterMid_tune_field(ABCMusicParser.Mid_tune_fieldContext ctx) { }
 	@Override public void exitMid_tune_field(ABCMusicParser.Mid_tune_fieldContext ctx) { }
 
+	@Override public void enterField_text(ABCMusicParser.Field_textContext ctx) { }
+	@Override public void exitField_text(ABCMusicParser.Field_textContext ctx) { }
+
 	@Override public void enterEnd_of_line(ABCMusicParser.End_of_lineContext ctx) { }
 	@Override public void exitEnd_of_line(ABCMusicParser.End_of_lineContext ctx) { }
 
