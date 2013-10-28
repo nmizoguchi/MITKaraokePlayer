@@ -196,4 +196,17 @@ public class Measure {
             return new ArrayList<String>();
         }
     }
+    
+    
+    @Override
+    public String toString(){
+        StringBuilder measureAsText = new StringBuilder();
+        if (!beginningBarLine.isEmpty()) {
+            measureAsText.append(beginningBarLine + " ");
+        }
+        for (SoundUnit su : listOfSoundUnits)
+            measureAsText.append(su.toString() + " ");
+        measureAsText.append(endingBarLine);
+        return measureAsText.toString();
+    }
 }
