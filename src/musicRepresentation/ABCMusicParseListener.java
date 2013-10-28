@@ -216,7 +216,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
         int beatsPerMinute = -1; // Check later if modified
         // When the field 'M' is omitted, the default value for meter is 4/4.
         int beatsPerMeasure = 4; // Denominator of Meter
-        double whatNoteGetsTheBeat = 1 / 4; // Divisor of Meter
+        double whatNoteGetsTheBeat = 1.0 / 4.0; // Divisor of Meter
         double defaultNoteLength = -1; // Check later if modified
         double bpmNoteLength = -1; // Check later if modified
         String key = "";
@@ -246,11 +246,27 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
                 // Meter
             } else if (field.equals("M:")) {
-                String[] parsed = stack.pop().toString().split("/");
-                int denominator = Integer.valueOf(parsed[0]);
-                int divisor = Integer.valueOf(parsed[1]);
-                whatNoteGetsTheBeat = 1.0 / divisor;
-                beatsPerMeasure = denominator;
+                String meter = (String)stack.pop();
+                
+                if( meter.equals("C")) {
+                    int denominator = 4;
+                    int divisor = 4;
+                    whatNoteGetsTheBeat = 1.0 / divisor;
+                    beatsPerMeasure = denominator;
+                }
+
+                else if( meter.equals("C|")){
+                    int denominator = 2;
+                    int divisor = 4;
+                    whatNoteGetsTheBeat = 1.0 / divisor;
+                    beatsPerMeasure = denominator;
+                } else {
+                    String[] parsed = meter.toString().split("/");
+                    int denominator = Integer.valueOf(parsed[0]);
+                    int divisor = Integer.valueOf(parsed[1]);
+                    whatNoteGetsTheBeat = 1.0 / divisor;
+                    beatsPerMeasure = denominator;
+                }
 
                 // Tempo (BPM)
             } else if (field.equals("Q:")) {
@@ -284,9 +300,9 @@ public class ABCMusicParseListener implements ABCMusicListener {
         if (defaultNoteLength < 0) {
             double meter = beatsPerMeasure * whatNoteGetsTheBeat;
             if (meter < 0.75) {
-                defaultNoteLength = 1 / 16;
+                defaultNoteLength = 1.0 / 16.0;
             } else {
-                defaultNoteLength = 1 / 8;
+                defaultNoteLength = 1.0 / 8.0;
             }
         }
 

@@ -71,17 +71,17 @@ public class Main {
         
         player.addLyricEvent(myTune.getTitle(), 0);
         player.addLyricEvent(myTune.getComposer(), 0);
-//        try {
-//            player.play();
-//        } catch (MidiUnavailableException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return;
-//        }
+        try {
+            player.play();
+        } catch (MidiUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
         
     }
 
     public static void main(String[] args) {
-            play("sample_abc/piece2.abc");
+            play("sample_abc/fur_elise.abc");
     }
 }
