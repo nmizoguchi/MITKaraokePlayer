@@ -62,7 +62,7 @@ public class MidiNoteRepresentationTest {
         tempPitch = midiNote.getPitch();
         tempPitch.octaveTranspose(999);
         
-        assertNotEquals(tempA, midiNote.getNumTicks());
+        assertEquals(false, tempA == midiNote.getNumTicks());
         assertEquals(numTicks,midiNote.getNumTicks());
         assertEquals(startTick,midiNote.getStartTick());
         assertEquals(true,tempPitch.equals(midiNote.getPitch()));

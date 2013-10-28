@@ -17,6 +17,7 @@ import grammar.ABCMusicParser.Field_keyContext;
 import grammar.ABCMusicParser.Field_meterContext;
 import grammar.ABCMusicParser.Field_numberContext;
 import grammar.ABCMusicParser.Field_tempoContext;
+import grammar.ABCMusicParser.Field_textContext;
 import grammar.ABCMusicParser.Field_titleContext;
 import grammar.ABCMusicParser.Field_voiceContext;
 import grammar.ABCMusicParser.KeyContext;
@@ -69,7 +70,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
     }
 
     public Map<String, Voice> getVoiceMap() {
-        return (Map<String, Voice>) stack.pop();
+    	return (Map<String, Voice>) stack.pop();
     }
 
     @Override
@@ -1175,4 +1176,16 @@ public class ABCMusicParseListener implements ABCMusicListener {
         // TODO Auto-generated method stub
 
     }
+
+	@Override
+	public void enterField_text(Field_textContext ctx) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void exitField_text(Field_textContext ctx) {
+		// TODO Auto-generated method stub
+		
+	}
 }
