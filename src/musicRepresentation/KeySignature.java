@@ -231,4 +231,8 @@ public class KeySignature {
         newMap.putAll(this.pitchMap);
         return newMap;
     }
+    
+    public String getKeyName() {
+        return this.keyName;
+    }
 }

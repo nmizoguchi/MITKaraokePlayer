@@ -108,8 +108,7 @@ public class ABCMusic {
         
         // Define parameters
         int startTick = 0;
-        int leastCommonTick = 1536; // 3*2^9 (Covers really short beats and also triplets)
-        int ticksPerBeat = (int)(leastCommonTick*header.getDefaultNoteLength());
+        int ticksPerBeat = header.getTicksPerBeat();
         Iterator<Voice> voicesIterator = voices.iterator();
         
         // Iterates through all voices in the piece
