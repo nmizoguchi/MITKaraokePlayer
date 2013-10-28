@@ -113,7 +113,18 @@ public class Voice {
         	}
         }
         
-        return new Voice(voiceName, newListOfMeasures);
+        this.setListOfMeausres(newListOfMeasures);
+        return this;
+    }
+    
+    /**
+     * Sets the listOfMeasures to a the newListOfMeasures
+     * 
+     * @param newListOfMeasures
+     * 			the List<Measure> that listOfMeasures should be set to
+     */
+    public void setListOfMeausres(List<Measure> newListOfMeasures) {
+    	listOfMeasures = newListOfMeasures;
     }
     
     @Override
