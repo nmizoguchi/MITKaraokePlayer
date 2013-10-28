@@ -114,7 +114,8 @@ public class ABCMusic {
         
         // Iterates through all voices in the piece
         // TODO: We can change this method to get notes and syllables for each voice!
-
+        while(voicesIterator.hasNext()) {
+            startTick = 0;
             Voice currentVoice = voicesIterator.next();
             
             System.out.println(currentVoice.getVoiceName());
@@ -156,7 +157,7 @@ public class ABCMusic {
                     startTick += numTicks;
                 }
             }
-
+        }
         
         return new SequencerInformation(midiNotes, lyrics, bpmDefaultLength,ticksPerBeat);
     }

@@ -896,9 +896,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
             measureList.add(0, (Measure) stack.pop());
         }
         
-        if (stack.peek() instanceof String) {
-            voiceName = (String) stack.pop();
-            System.out.println("Voice: "+voiceName);
+        if (stack.peek() instanceof Valid_text_with_numberContext) {
+            voiceName = (String) ((Valid_text_with_numberContext)stack.pop()).getText();
         }
         Iterator<Measure> measureIterator = measureList.iterator();
 
@@ -1199,7 +1198,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void exitField_voice(Field_voiceContext ctx) {
         // field_voice : FIELD_V SPACE* valid_text_with_number end_of_line;
-        stack.push(ctx.valid_text_with_number().getText());
+        stack.push(ctx.valid_text_with_number());
     }
 
 	@Override
