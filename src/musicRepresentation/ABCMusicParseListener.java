@@ -61,6 +61,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import sound.Pitch;
 
 public class ABCMusicParseListener implements ABCMusicListener {
+    private static final boolean DEBUGMODE = false;
 
     private static Stack<Object> stack = new Stack<Object>();
     private static ABCHeader header;
@@ -349,7 +350,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
         Chord c = new Chord(noteList);
         stack.push(c);
-        System.out.println("Multi-note Chord constructed");
+        if(DEBUGMODE)
+            System.out.println("Multi-note Chord constructed");
     }
 
     @Override
@@ -397,7 +399,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
             noteList.add(n);
             Chord c = new Chord(noteList);
             stack.push(c);
-            System.out.println("Single-note Chord Built");
+            if(DEBUGMODE)
+                System.out.println("Single-note Chord Built");
         }
     }
 
@@ -448,8 +451,10 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 num = Double.parseDouble(ctx.getChild(0).getText());
             }
         }
-        System.out.println(num);
-        System.out.println(den);
+        if(DEBUGMODE){
+            System.out.println(num);
+            System.out.println(den);
+        }
         stack.push(num / den);
     }
 
@@ -578,7 +583,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 Chord c2 = chordList.remove(0);
                 stack.push(c2);
             }
-            System.out.println("Duplet constructed");
+            if(DEBUGMODE)
+                System.out.println("Duplet constructed");
             break;
         // triplet
         case 3:
@@ -592,7 +598,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 Chord c2 = chordList.remove(0);
                 stack.push(c2);
             }
-            System.out.println("Triplet constructed");
+            if(DEBUGMODE)
+                System.out.println("Triplet constructed");
             break;
         // quadruplet
         case 4:
@@ -606,7 +613,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 Chord c2 = chordList.remove(0);
                 stack.push(c2);
             }
-            System.out.println("Quadruplet constructed");
+            if(DEBUGMODE)
+                System.out.println("Quadruplet constructed");
             break;
         }
     }
@@ -942,8 +950,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     @Override
     public void exitLyric(LyricContext ctx) {
-        //System.out.println("lyric:"+ctx.getText());
-       
         //On this method, we are:
         // --------------------------------------------------------------
         //1st - removing the w: from the line
@@ -1101,7 +1107,8 @@ public class ABCMusicParseListener implements ABCMusicListener {
     @Override
     public void exitRest(RestContext ctx) {
         // rest : LOWERCASE_Z;
-        System.out.println('z');
+        if(DEBUGMODE)
+            System.out.println('z');
         stack.push('z');
     }
 
