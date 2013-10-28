@@ -997,9 +997,9 @@ public class ABCMusicParseListener implements ABCMusicListener {
             while (tempIterator2.hasNext()) {
                 String tempString = tempIterator2.next();
                 if (tempIterator2.hasNext()) {
-                    mySyllablesAfterTreatingHyphens.add(tempString + "-");
+                    mySyllablesAfterTreatingHyphens.add(tempString.concat("-"));
                 } else {
-                    mySyllablesAfterTreatingHyphens.add(tempString);
+                    mySyllablesAfterTreatingHyphens.add(tempString.concat(" "));
                 }
             }
         }
@@ -1011,19 +1011,19 @@ public class ABCMusicParseListener implements ABCMusicListener {
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == '_') {
                     separatingSpecialChars.add(sb.toString());
-                    separatingSpecialChars.add("_");
+                    separatingSpecialChars.add("_ ");
                     sb.setLength(0);
                 } else if (s.charAt(i) == '*') {
                     separatingSpecialChars.add(sb.toString());
-                    separatingSpecialChars.add("*");
+                    separatingSpecialChars.add("* ");
                     sb.setLength(0);
                 } else if (s.charAt(i) == '|') {
                     separatingSpecialChars.add(sb.toString());
-                    separatingSpecialChars.add("|");
+                    separatingSpecialChars.add("| ");
                     sb.setLength(0);
                 } else {
                     sb.append(s.charAt(i));
-                    if (i == s.length() - 1)
+                    if (i == s.length() - 1 && !sb.toString().equals(" "))
                         separatingSpecialChars.add(sb.toString());
                 }
             }
@@ -1035,7 +1035,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
         List<String> endingList = new ArrayList<String>();
         for (String s : separatingSpecialChars)
             endingList.add(s.replace("~", " ").replace("\\\\", "-"));
-       
+        endingList.removeAll(Arrays.asList("", null));
         stack.push(endingList);
     }
     @Override
