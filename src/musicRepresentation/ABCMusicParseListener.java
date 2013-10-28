@@ -402,7 +402,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
 	public void exitValid_note(Valid_noteContext ctx) {
 		// valid_note : A_THROUGH_G | LOWERCASE_B | CAPITAL_C;
 		stack.push(new Character(ctx.start.getText().charAt(0)));
-
 	}
 
 	@Override
@@ -423,11 +422,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_key(Field_keyContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_key(Field_keyContext ctx) {
+        // field_key : FIELD_K SPACE* key end_of_line;
+        stack.push(ctx.key().getText());
+        stack.push(ctx.FIELD_K().getText());
+    }
 
 	@Override
 	public void enterMeter(MeterContext ctx) {
@@ -641,11 +641,20 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_tempo(Field_tempoContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_tempo(Field_tempoContext ctx) {
+        /*
+         * When the field 'Q' is omitted, the default value is 100
+         * default-length notes (given by field 'L') per minute. Notice,
+         * however, that when 'Q' is specified, it includes a beat size, and the
+         * tempo is not based on 'L'.
+         * 
+         * field_tempo : FIELD_Q SPACE* tempo end_of_line;
+         */
+        // field_tempo : FIELD_Q SPACE* tempo end_of_line;
+        stack.push(ctx.tempo().getText());
+        stack.push(ctx.FIELD_Q().getText());
+    }
 
 	@Override
 	public void enterElement(ElementContext ctx) {
@@ -724,11 +733,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void exitField_composer(Field_composerContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_composer(Field_composerContext ctx) {
+        // field_composer : FIELD_C SPACE* valid_text_with_number end_of_line;
+        stack.push(ctx.valid_text_with_number().getText());
+        stack.push(ctx.FIELD_C().getText());
+    }
 
 	@Override
 	public void enterOctave(OctaveContext ctx) {
@@ -783,11 +793,23 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_default_length(Field_default_lengthContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_default_length(Field_default_lengthContext ctx) {
+        /*
+         * Definition in the project's website: If there is no 'L' field
+         * defined, a unit note length is set based on the meter: if it is less
+         * than 0.75 the default unit note length is a sixteenth note; if it is
+         * 0.75 or greater, it is an eighth note. For example, 2/4 = 0.5, so,
+         * the default unit note length is a sixteenth note, while for 4/4 =
+         * 1.0, or 6/8 = 0.75, or 3/4= 0.75, it is an eighth note. Notice that
+         * if neither 'M' nor 'L' fields are present, the default note length is
+         * an eighth.
+         * 
+         * field_default_length : FIELD_L SPACE* note_length_strict end_of_line;
+         */
+        stack.push(ctx.note_length_strict().getText());
+        stack.push(ctx.FIELD_L().getText());
+    }
 
 	@Override
 	public void enterKey_accidental(Key_accidentalContext ctx) {
@@ -819,11 +841,15 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_meter(Field_meterContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_meter(Field_meterContext ctx) {
+        /*
+         * When the field 'M' is omitted, the default value for meter is 4/4.
+         * field_meter : FIELD_M SPACE* meter end_of_line;
+         */
+        stack.push(ctx.meter().getText());
+        stack.push(ctx.FIELD_M().getText());
+    }
 
 	@Override
 	public void enterField_number(Field_numberContext ctx) {
@@ -831,11 +857,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_number(Field_numberContext ctx) {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void exitField_number(Field_numberContext ctx) {
+        // field_number : FIELD_X SPACE* NUMBER end_of_line
+        stack.push(ctx.NUMBER().toString());
+        stack.push(ctx.FIELD_X().toString());
+    }
 
 	@Override
 	public void enterRest(RestContext ctx) {
@@ -868,13 +895,12 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
 	}
 
-	@Override
-	public void exitField_title(Field_titleContext ctx) {
-		for (int i = 0; i < ctx.getChildCount(); i++) {
-			// Put initially T: and then the String representing Title
-			stack.push(ctx.getChild(i).getText());
-		}
-	}
+    @Override
+    public void exitField_title(Field_titleContext ctx) {
+        // field_title : FIELD_T SPACE* valid_text_with_number end_of_line;
+        stack.push(ctx.valid_text_with_number().getText());
+        stack.push(ctx.FIELD_T().toString());
+    }
 
 	@Override
 	public void enterPitch(PitchContext ctx) {
