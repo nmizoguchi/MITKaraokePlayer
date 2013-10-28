@@ -671,6 +671,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 stack.add(n);
                 return;
             } else if (stack.peek() instanceof Character) {
+                stack.pop();
                 Rest r = new Rest();
                 stack.add(r);
                 return;
