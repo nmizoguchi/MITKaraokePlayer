@@ -50,7 +50,7 @@ public class Note {
 	}
 
 	/**
-	 * @returns the durationMultiplier of the Note.
+	 * @return the durationMultiplier of the Note.
 	 */
 	public double getDurationMultiplier() {
 		return durationMultiplier;

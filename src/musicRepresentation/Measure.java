@@ -132,13 +132,13 @@ public class Measure {
     }
 
     /**
-     * Takes a List<String> and matches it to the correspondent Chord. If it encounters a �|� then
-     * it makes the rest of the Chords in the measure have the �*� for its syllable.
+     * Takes a List<String> and matches it to the correspondent Chord. If it encounters a "|" then
+     * it makes the rest of the Chords in the measure have the "*" for its syllable.
      * Measure.applyLyrics() returns the input List<String> without the Strings that weren't
      * matched.
      * 
      * @param originalListOfStrings
-     * @return a list of Strings excluding the Strings that weren�t matched.
+     * @return a list of Strings excluding the Strings that weren't matched.
      */
     List<String> applyLyrics(List<String> originalListOfStrings) {
         

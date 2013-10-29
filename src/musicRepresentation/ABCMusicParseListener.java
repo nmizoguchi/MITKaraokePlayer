@@ -128,10 +128,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     }
 
-    /**
-     * @author Nicholas M. Mizoguchi
-     * @param ctx
-     */
     @Override
     public void exitAbc_music(Abc_musicContext ctx) {
         /*
@@ -869,9 +865,6 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
     }
 
-    /**
-     * @author Nicholas M. Mizoguchi
-     */
     @Override
     public void exitAbc_line(Abc_lineContext ctx) {
         /*

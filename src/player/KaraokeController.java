@@ -19,10 +19,11 @@ import sound.LyricListener;
 import sound.SequencePlayer;
 
 /**
- * Joins information of abc files and MIDI.
- * Have control over the basic flow of a karaoke player.
+ * A simple implementation of a karaoke. Uses MIDI format to play music, and
+ * uses the terminal as the user interface. Joins information of abc files and
+ * MIDI. Have control over the basic flow of a karaoke player.
  * @author Nicholas M. Mizoguchi
- *
+ * 
  */
 public class KaraokeController {
 
