@@ -48,6 +48,7 @@ import grammar.ABCMusicParser.Valid_text_with_numberContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -357,14 +358,14 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
         // i is the number of notes in the Chord; subtract 2 in order to not
         // count the '[' and ']'
-        int i = ctx.getChildCount() - 2;
-
-        while (i > 0) {
+        for(int i = 0; i < ctx.getChildCount() - 2; i++) {
             Note n = (Note) stack.pop();
             noteList.add(n);
-            --i;
         }
-
+        
+        // Then, in order to fix the order of chord notes, we revert them.
+        Collections.reverse(noteList);
+        
         Chord c = new Chord(noteList);
         stack.push(c);
         if(DEBUGMODE)
