@@ -183,6 +183,11 @@ public class ABCMusicParseListener implements ABCMusicListener {
                 previousVoice = voiceMap.get(current.getVoiceName());
             }
         }
+        
+        // call Voice.fixRepeats() on each voice in the voiceMap.
+        for (String key: voiceMap.keySet()) {
+        	voiceMap.get(key).fixRepeats();
+        }
         stack.push(voiceMap);
     }
 
