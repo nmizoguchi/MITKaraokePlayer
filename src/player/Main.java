@@ -1,9 +1,12 @@
 package player;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -133,10 +136,31 @@ public class Main {
            }
         }
         
-        System.out.print("\nChoose a file number to play: ");
         // TODO: Reads only one byte. FIX THIS!
-        int fileNumber = System.in.read() - '0';
+        //int fileNumber = System.in.read() - '0';        
+        //play(path+listOfFiles[fileNumber].getName());
         
-        play(path+listOfFiles[fileNumber].getName());
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String inputData;
+        do {
+            System.out.print("\nChoose a file number to play: ");
+            
+            inputData = in.readLine();  
+            // We avoid non-numerical strings, and also strings representing integers that do not
+            // match an index on the listOfFiles
+            if (!inputData.equals("") 
+                    && Pattern.matches("[0-9]+", inputData)
+                    && 0 <= Integer.parseInt(inputData)
+                    && Integer.parseInt(inputData) < listOfFiles.length) {
+                try {
+                    play(path + listOfFiles[Integer.parseInt(inputData)].getName());
+                } catch (RuntimeException re) {
+                    // we can treat for exceptions here!
+                    System.err.println(re.getClass().getName() + ": " + re.getMessage());
+                }
+            }
+            // Empty input terminates the do-loop.
+        } while (!inputData.equals(""));
+        System.out.print("\nThank you for singing with us :)");
     }
 }
