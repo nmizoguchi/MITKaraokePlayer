@@ -936,10 +936,10 @@ public class ABCMusicParseListener implements ABCMusicListener {
         int octaveValue = 0;
 
         // Creating a new int according to the node we are visiting.
-        if (ctx.COMMA() != null) {
-            octaveValue = (-1)*ctx.COMMA().size();
-        } else if (ctx.APOSTROPHE() != null) {
-            octaveValue = ctx.APOSTROPHE().size();
+        if (!ctx.COMMA().isEmpty()) {
+            octaveValue = (-1)*ctx.getChildCount();
+        } else if (!ctx.APOSTROPHE().isEmpty()) {
+            octaveValue = ctx.getChildCount();
         }
         stack.push(octaveValue);
 
