@@ -105,10 +105,6 @@ public class ABCMusic {
         // Creates the lists of voices by getting them from the map
         List<Voice> voices = new ArrayList<Voice>(voiceMap.values());
 
-        // Creates lists to store information to create the SequencerInformation
-        List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
-        List<Syllable> lyrics = new ArrayList<Syllable>();
-
         // Define parameters
         int startTick = 0;
         int ticksPerBeat = header.getTicksPerBeat();
@@ -122,6 +118,10 @@ public class ABCMusic {
             startTick = 0;
             Voice currentVoice = voicesIterator.next();
 
+            // Creates lists to store information to create the SequencerInformation
+            List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
+            List<Syllable> lyrics = new ArrayList<Syllable>();
+            
             Iterator<Measure> measuresIterator = currentVoice
                     .getListOfMeasures().iterator();
 

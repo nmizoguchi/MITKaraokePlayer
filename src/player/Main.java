@@ -77,15 +77,15 @@ public class Main {
          */
         
         // Printing on Console: music title and composer
-        System.out.println(myTune.getTitle());
-        System.out.println(myTune.getComposer());
+        System.out.println("Title: "+myTune.getTitle());
+        System.out.println("Composer: "+myTune.getComposer());
         
         
         Iterator<SequencerInformation> seqIterator = sequencerTracks.iterator();
         
         while(seqIterator.hasNext()){
             SequencerInformation sequencerInfo = seqIterator.next();
-            
+            System.out.println(sequencerInfo.toString());
             // Adding all MidiNoteRepresentations as MidiNotes
             for (MidiNoteRepresentation n : sequencerInfo.getMidiNotes())
                 player.addNote(n.getPitch().toMidiNote(), n.getStartTick(),
