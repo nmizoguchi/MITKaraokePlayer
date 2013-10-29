@@ -75,7 +75,12 @@ public class Main {
          * get each MidiNoteRepresentation from each voice, represented as an
          * element of SequencerInformation in sequencerTracks.
          */
-
+        
+        // Printing on Console: music title and composer
+        System.out.println(myTune.getTitle());
+        System.out.println(myTune.getComposer());
+        
+        
         Iterator<SequencerInformation> seqIterator = sequencerTracks.iterator();
         
         while(seqIterator.hasNext()){
@@ -91,8 +96,9 @@ public class Main {
                 player.addLyricEvent(s.getSyllable(), s.getStartTick());
         }
         
-        player.addLyricEvent("\n"+myTune.getTitle().concat("\n"), 0);
-        player.addLyricEvent(myTune.getComposer().concat("\n"), 0);
+//        player.addLyricEvent("\n"+myTune.getTitle().concat("\n"), 0);
+//        player.addLyricEvent(myTune.getComposer().concat("\n"), 0);
+        
         
         try {
             player.play();
