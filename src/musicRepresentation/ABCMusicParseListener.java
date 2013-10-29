@@ -944,7 +944,7 @@ public class ABCMusicParseListener implements ABCMusicListener {
 
         // Creating a new int according to the node we are visiting.
         if (ctx.COMMA() != null) {
-            octaveValue = ctx.COMMA().size();
+            octaveValue = (-1)*ctx.COMMA().size();
         } else if (ctx.APOSTROPHE() != null) {
             octaveValue = ctx.APOSTROPHE().size();
         }

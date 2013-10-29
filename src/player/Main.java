@@ -49,7 +49,7 @@ public class Main {
         // and a LyricListener that prints each lyric that it sees.
         LyricListener listener = new LyricListener() {
             private int counter = 0;
-            private int lyricsPerLine = 12;
+            private int lyricsPerLine = 18;
 
             public void processLyricEvent(String text) {
                 counter = (counter + 1) % lyricsPerLine;
@@ -88,7 +88,7 @@ public class Main {
         
         while(seqIterator.hasNext()){
             SequencerInformation sequencerInfo = seqIterator.next();
-            System.out.println(sequencerInfo.toString());
+
             // Adding all MidiNoteRepresentations as MidiNotes
             for (MidiNoteRepresentation n : sequencerInfo.getMidiNotes())
                 player.addNote(n.getPitch().toMidiNote(), n.getStartTick(),
@@ -143,7 +143,7 @@ public class Main {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String inputData;
         do {
-            System.out.print("\nChoose a file number to play: ");
+            System.out.print("\n\nChoose a file number to play: ");
             
             inputData = in.readLine();  
             // We avoid non-numerical strings, and also strings representing integers that do not
