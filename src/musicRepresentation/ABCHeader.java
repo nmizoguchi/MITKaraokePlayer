@@ -1,7 +1,8 @@
 package musicRepresentation;
 
 /**
- * 
+ * This class stores basic information about an .abc music.
+ * It's an immutable class.
  * @author Nicholas M. Mizoguchi
  *
  */
@@ -16,6 +17,18 @@ public class ABCHeader {
     private double bpmNoteLength;
     private KeySignature keySignature;
     
+    /**
+     * Creates an ABCHeader object by informing all its attributes.
+     * @param title
+     * @param composer
+     * @param beatsPerMinute
+     * @param bpmNoteLength
+     * @param ticksPerBeat
+     * @param whatNoteGetsTheBeat
+     * @param beatsPerMeasure
+     * @param defaultNoteLength
+     * @param key
+     */
     public ABCHeader(String title, String composer,int beatsPerMinute, double bpmNoteLength,
                         int ticksPerBeat, double whatNoteGetsTheBeat, int beatsPerMeasure,
                         double defaultNoteLength, String key) {

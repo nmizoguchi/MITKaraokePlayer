@@ -22,31 +22,28 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 /**
+ * This class consists of a representation of an .abc file, in a way that is
+ * possible to extract information to be played with some kind of sequencer. For
+ * now it gives information to be converted to MIDI. It gather information from
+ * an .abc file by parsing it. It is an immutable class.
  * 
  * @author Nicholas M. Mizoguchi
  * 
  */
-
 public class ABCMusic {
     private ABCHeader header;
     private Map<String, Voice> voiceMap;
 
     /**
      * Creates a representation of an ABC file as an ABCMusic Object.
-     * 
-     * @param path
-     *            the .abc file to be interpreted.
-     * @throws IOException
-     *             in case the path is invalid.
+     * @param path the .abc file to be interpreted.
+     * @throws IOException in case the path or the file is invalid.
      */
     public ABCMusic(String path) throws IOException {
         // Opens file in path and get all the chars in the file
         String input = readFile(path);
 
-        /*
-         * Runs the parser in the stream of bytes received * from the file in
-         * path.
-         */
+        // Runs the parser in the stream of bytes received * from the file in
 
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);
@@ -62,18 +59,12 @@ public class ABCMusic {
         ParseTree tree;
         tree = parser.line(); // "line" is the starter rule.
 
-        // // DRAW THE THREE
-        // ((RuleContext)tree).inspect(parser);
-
         // Walk the tree with the listener.
         ParseTreeWalker walker = new ParseTreeWalker();
         ParseTreeListener listener = new ABCMusicParseListener();
         walker.walk(listener, tree);
 
-        // ABCMusicParseListener() has methods to get all information from the
-        // AST
-        // have to initialize all variables
-        // TODO: When parsed correctly, remove comment
+        // ABCMusicParseListener() has methods to get all information from the AST
         this.voiceMap = ((ABCMusicParseListener) listener).getVoiceMap();
         this.header = ((ABCMusicParseListener) listener).getHeader();
     }
@@ -113,15 +104,17 @@ public class ABCMusic {
         /*
          * Iterates through all voices in the piece creating a
          * sequencerInformation for each voice, puting each one as an element in
-         * the list */
+         * the list
+         */
         while (voicesIterator.hasNext()) {
             startTick = 0;
             Voice currentVoice = voicesIterator.next();
 
-            // Creates lists to store information to create the SequencerInformation
+            // Creates lists to store information to create the
+            // SequencerInformation
             List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
             List<Syllable> lyrics = new ArrayList<Syllable>();
-            
+
             Iterator<Measure> measuresIterator = currentVoice
                     .getListOfMeasures().iterator();
 
@@ -164,7 +157,8 @@ public class ABCMusic {
                     startTick += numTicks;
                 }
             }
-            info.add(new SequencerInformation(currentVoice.getVoiceName(), midiNotes, lyrics));
+            info.add(new SequencerInformation(currentVoice.getVoiceName(),
+                    midiNotes, lyrics));
         }
 
         return info;
@@ -187,11 +181,11 @@ public class ABCMusic {
     public String getComposer() {
         return header.getComposer();
     }
-    
+
     public int getBeatsPerMinute() {
         return header.getBeatsPerMinute();
     }
-    
+
     public int getTicksPerBeat() {
         return header.getTicksPerBeat();
     }
@@ -223,6 +217,10 @@ public class ABCMusic {
         return buffer;
     }
 
+    /**
+     * Returns as a String a representation of the object.
+     * @return String
+     */
     @Override
     public String toString() {
         String s = this.header.toString() + "\n";
