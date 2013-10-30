@@ -27,15 +27,15 @@ public class Chord implements SoundUnit {
 	 *            Must be the order in which the Notes appear in the Chord.
 	 *            Cannot be empty.
 	 */
-	public Chord(List<Note> listOfNotesInChord) {
-		this.listOfNotesInChord = listOfNotesInChord;
-		this.chordDurationMultiplier = listOfNotesInChord.get(0).getDurationMultiplier();
-		this.syllable = "";
-		
-		for (Note n: listOfNotesInChord) {
-			n.setDurationMultiplier(chordDurationMultiplier);
-		}
-	}
+    public Chord(List<Note> listOfNotesInChord) {
+        this.listOfNotesInChord = listOfNotesInChord;
+        this.chordDurationMultiplier = listOfNotesInChord.get(0).getDurationMultiplier();
+        this.syllable = "";
+
+        for (Note n : listOfNotesInChord) {
+            n.setDurationMultiplier(chordDurationMultiplier);
+        }
+    }
 	
 	/**
 	 * Mutator Method. This method is used in the Measure class to get the
@@ -82,12 +82,12 @@ public class Chord implements SoundUnit {
 	 *            the double to multiply each note.durationMultipler by. Should
 	 *            be either 2/3, 3/2, or 3/4.
 	 */
-	public void multiplyDurationMultiplier(double factor) {
-		for (Note n: listOfNotesInChord) {
-			n.multiplyDurationMultiplier(factor);
-		}
-		chordDurationMultiplier = chordDurationMultiplier*factor;
-	}
+    public void multiplyDurationMultiplier(double factor) {
+        for (Note n : listOfNotesInChord) {
+            n.multiplyDurationMultiplier(factor);
+        }
+        chordDurationMultiplier = chordDurationMultiplier * factor;
+    }
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -100,18 +100,18 @@ public class Chord implements SoundUnit {
             return false;
         Chord that = (Chord) obj;
         return this.syllable.equals(that.syllable)
-            && this.chordDurationMultiplier == that.chordDurationMultiplier
-            && this.listOfNotesInChord.equals(that.listOfNotesInChord);
+                && this.chordDurationMultiplier == that.chordDurationMultiplier
+                && this.listOfNotesInChord.equals(that.listOfNotesInChord);
     }
 	
-	@Override
-	public String toString() {
-		// the syllable is not currently printed in the toString() method
-		String string = "[";
-		for (Note n:listOfNotesInChord) {
-			string += " " + n.toString();
-		}
-		string += "]";
-		return string;
-	}
+    @Override
+    public String toString() {
+        // the syllable is not currently printed in the toString() method
+        String string = "[";
+        for (Note n : listOfNotesInChord) {
+            string += " " + n.toString();
+        }
+        string += "]";
+        return string;
+    }
 }

@@ -1,16 +1,14 @@
 package musicRepresentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import musicRepresentation.Note;
 import sound.Pitch;
-
-
 
 /**
  * This is the test suite for the Measure class.
@@ -43,17 +41,17 @@ public class MeasureTest {
         String barline = "|";
         String expectedBarlineOutput = "|";
         
-        Pitch pitch1in = new Pitch('C',  0, 0, false); // C
-        Pitch pitch2in = new Pitch('C', -1, 0, true); // Cb
-        Pitch pitch3in = new Pitch('C',  0, 0, false); // C
-        Pitch pitch4in = new Pitch('C',  0, 0, true);  // C=
-        Pitch pitch5in = new Pitch('C',  0, 0, false); // C
+        Pitch pitch1in = new Pitch('C',  0, 0, false);  // C
+        Pitch pitch2in = new Pitch('C', -1, 0, true);   // Cb
+        Pitch pitch3in = new Pitch('C',  0, 0, false);  // C
+        Pitch pitch4in = new Pitch('C',  0, 0, true);   // C=
+        Pitch pitch5in = new Pitch('C',  0, 0, false);  // C
         
         Pitch pitch1out = new Pitch('C',  1, 0, false); // C#
-        Pitch pitch2out = new Pitch('C', -1, 0, true); // Cb
-        Pitch pitch3out = new Pitch('C', -1, 0, true); // Cb
-        Pitch pitch4out = new Pitch('C',  0, 0, true); // C=
-        Pitch pitch5out = new Pitch('C',  0, 0, true); // C=
+        Pitch pitch2out = new Pitch('C', -1, 0, true);  // Cb
+        Pitch pitch3out = new Pitch('C', -1, 0, true);  // Cb
+        Pitch pitch4out = new Pitch('C',  0, 0, true);  // C=
+        Pitch pitch5out = new Pitch('C',  0, 0, true);  // C=
         
         // These are final in order to enable the inline block statement     
         final Note note1in = new Note(pitch1in);
@@ -130,15 +128,15 @@ public class MeasureTest {
         String barline = ":|";
         String expectedBarlineOutput = ":|";
         
-        Pitch pitch1in = new Pitch('A',  0, 0, false); // A
-        Pitch pitch2in = new Pitch('A',  1, 0, true); // A#
-        Pitch pitch3in = new Pitch('A',  0, 0, false); // A
-        Pitch pitch5in = new Pitch('A',  0, 0, true);  // A=
-        Pitch pitch6in = new Pitch('A',  0, 0, false); // A
+        Pitch pitch1in = new Pitch('A',  0, 0, false);  // A
+        Pitch pitch2in = new Pitch('A',  1, 0, true);   // A#
+        Pitch pitch3in = new Pitch('A',  0, 0, false);  // A
+        Pitch pitch5in = new Pitch('A',  0, 0, true);   // A=
+        Pitch pitch6in = new Pitch('A',  0, 0, false);  // A
         
         Pitch pitch1out = new Pitch('A', -1, 0, false); // Ab
-        Pitch pitch2out = new Pitch('A',  1, 0, true); // A#
-        Pitch pitch3out = new Pitch('A',  1, 0, true); // A#
+        Pitch pitch2out = new Pitch('A',  1, 0, true);  // A#
+        Pitch pitch3out = new Pitch('A',  1, 0, true);  // A#
         Pitch pitch5out = new Pitch('A',  0, 0, true);  // A=
         Pitch pitch6out = new Pitch('A',  0, 0, true);  // A=
         
@@ -216,14 +214,14 @@ public class MeasureTest {
         String barline = "|";
         
         Pitch pitch1in = new Pitch('C',  0, 0, false); // C
-        Pitch pitch2in = new Pitch('C', -1, 0, true); // Cb
+        Pitch pitch2in = new Pitch('C', -1, 0, true);  // Cb
         Pitch pitch3in = new Pitch('C',  0, 0, false); // C
         Pitch pitch4in = new Pitch('C',  0, 0, true);  // C=
         Pitch pitch5in = new Pitch('C',  0, 0, false); // C
         
         Pitch pitch1out = new Pitch('C',  1, 0, false); // C#
-        Pitch pitch2out = new Pitch('C', -1, 0, true); // Cb
-        Pitch pitch3out = new Pitch('C', -1, 0, true); // Cb
+        Pitch pitch2out = new Pitch('C', -1, 0, true);  // Cb
+        Pitch pitch3out = new Pitch('C', -1, 0, true);  // Cb
         Pitch pitch4out = new Pitch('C',  0, 0, true);  // C=
         Pitch pitch5out = new Pitch('C',  0, 0, true);  // C=
         
@@ -571,7 +569,6 @@ public class MeasureTest {
     
     /**
      * 'Get' methods test: getEndingBarLine, getListOfSoundUnits.
-     *  We need to test for mutability.
      * 
      */
     @SuppressWarnings("serial")

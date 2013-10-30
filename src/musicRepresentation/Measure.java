@@ -51,8 +51,7 @@ public class Measure {
                     
                     if (note.getPitch().isHasAccidental()) {
                         // If the actual note being iterated has an Accidental, we need to update
-                        // the
-                        // measureSignature map!
+                        // the measureSignature map!
                         measureSignature.put(new Pitch(note.getPitch().getValue(), 0, note
                                 .getPitch().getOctave(), false), note.getPitch());
                         // By putting the key onto the Map, we override the previous value, updating
@@ -101,6 +100,11 @@ public class Measure {
         return listOfSoundUnits;
     }
     
+    /**
+     * Returns a String corresponding to the beginning bar line of the measure.
+     * 
+     * @return the beginning bar line of the measure.
+     */
     String getBeginningBarLine() {
     	return beginningBarLine;
     }
@@ -165,7 +169,7 @@ public class Measure {
                         newStart++;
                         break;
 
-                        // Substitute stars with empty strings
+                    // Substitute stars with empty strings
                     } else if (syllable.equals("*")) {
                         syllable = "";
                     }

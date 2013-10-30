@@ -47,22 +47,22 @@ public class NoteTest {
 	}
 	
 	// Tests the multiplyDurationMultiplier method	
-	@Test
-	public void testSetDurationMultipler() {
-		Note note = new Note(new Pitch('C'), 2);
-		note.setDurationMultiplier(Double.MAX_VALUE);
-		double result1 = note.getDurationMultiplier();
-		
-		assertEquals(Double.MAX_VALUE, result1, 0.00001);
-	}
+    @Test
+    public void testSetDurationMultipler() {
+        Note note = new Note(new Pitch('C'), 2);
+        note.setDurationMultiplier(Double.MAX_VALUE);
+        double result1 = note.getDurationMultiplier();
+
+        assertEquals(Double.MAX_VALUE, result1, 0.00001);
+    }
 	
 	// Tests the setPitch method	
 	@Test
-	public void testSetPitch() {
-		Note note = new Note(new Pitch('C'), 2);
-		Pitch newPitch = new Pitch('D');
-		note.setPitch(newPitch);
-		
-		assertTrue(note.getPitch().equals(newPitch));
-	}
+    public void testSetPitch() {
+        Note note = new Note(new Pitch('C'), 2);
+        Pitch newPitch = new Pitch('D');
+        note.setPitch(newPitch);
+
+        assertTrue(note.getPitch().equals(newPitch));
+    }
 }

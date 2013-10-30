@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * Test suite for Syllable class.
+ * @author Victor
+ *
+ */
 public class SyllableTest {
     @Test
     public void testSyllable() {
@@ -26,5 +31,4 @@ public class SyllableTest {
         assertEquals(syllableContent, syllable.getSyllable());
         assertEquals(startTick, syllable.getStartTick());
     }
-
 }
