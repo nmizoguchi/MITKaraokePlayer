@@ -28,6 +28,11 @@ import sound.SequencePlayer;
 public class KaraokeController {
 
     private String musicFolder;
+    
+    /**
+     * Constructor
+     * @param folder the path to the folder where the .abc files are located.
+     */
     public KaraokeController(String folder) {
         musicFolder = folder;
     }
@@ -164,10 +169,7 @@ public class KaraokeController {
                 player.addLyricEvent(s.getSyllable(), s.getStartTick());
         }
         
-//        player.addLyricEvent("\n"+myTune.getTitle().concat("\n"), 0);
-//        player.addLyricEvent(myTune.getComposer().concat("\n"), 0);
-        
-        
+        // PLAY
         try {
             player.play();
         } catch (MidiUnavailableException e) {

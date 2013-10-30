@@ -7,15 +7,15 @@ package musicRepresentation;
  *
  */
 public class ABCHeader {
-    private String title;
-    private String composer;
-    private int beatsPerMinute;
-    private int ticksPerBeat;
-    private int beatsPerMeasure; // Denominator of Meter
-    private double whatNoteGetsTheBeat; // Divisor of Meter
-    private double defaultNoteLength;
-    private double bpmNoteLength;
-    private KeySignature keySignature;
+    private final String title;
+    private final String composer;
+    private final int beatsPerMinute;
+    private final int ticksPerBeat;
+    private final int beatsPerMeasure; // Denominator of Meter
+    private final double whatNoteGetsTheBeat; // Divisor of Meter
+    private final double defaultNoteLength;
+    private final double bpmNoteLength;
+    private final KeySignature keySignature;
     
     /**
      * Creates an ABCHeader object by informing all its attributes.

@@ -169,4 +169,15 @@ public class KeySignatureTest {
         // Verify if they are different maps
         assertEquals(false, map.equals(key.getPitchMap()));
     }
+    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testKeySignature_invalidInputs() {
+        new KeySignature("");
+        new KeySignature("a");
+        new KeySignature("am");
+        new KeySignature("C flat");
+        new KeySignature("C sharp");
+        new KeySignature("G major");
+    }
 }

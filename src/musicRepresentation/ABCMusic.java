@@ -31,8 +31,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
  * 
  */
 public class ABCMusic {
-    private ABCHeader header;
-    private Map<String, Voice> voiceMap;
+    private final ABCHeader header;
+    private final Map<String, Voice> voiceMap;
 
     /**
      * Creates a representation of an ABC file as an ABCMusic Object.
