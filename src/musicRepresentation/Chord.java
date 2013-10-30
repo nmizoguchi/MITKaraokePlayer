@@ -2,8 +2,6 @@ package musicRepresentation;
 
 import java.util.List;
 
-import sound.Pitch;
-
 /**
  * The Chord class implements the SoundUnit class. A Chord is composed of a list
  * of one or more Notes in the Chord. As per the new specifications, the

@@ -1,7 +1,6 @@
 package musicRepresentation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +26,6 @@ public class Measure {
 	 * @param chordsAndRestsInMeasure
 	 *            a list of the sound units (chords and rests) that compose the
 	 *            measure. Must be non-empty.
-	 * @param beginningBarLine
-	 *            a String representing the beginning bar line. Should be "[|",
-	 *            "|:", "[1", or "[2". A [1 can also appear midway through a
-	 *            measure. In that case, the [1 is still stored as a
-	 *            beginningBarLine but beginFirstAlternateEnding is set to a
-	 *            nonzero int.
 	 * @param endingBarLine
 	 *            a String representing the ending bar line. Requires a valid
 	 *            bar line (can be "|", "||", "|]", ":|").
@@ -74,28 +67,27 @@ public class Measure {
                 }
             }
         }
-
-        // original pseudocode:
-        // measureSignature = keysignature.getPitchMap():@returns copy of map
-        // for su in List<SU>:
-        // if soundunit instanceof chord:
-        // for note in listOfNoteinchord:
-        // if note.pitch.hasAccidental:
-        // //if it has an accidental
-        // measuresignature.put(new Pitch(note.pitchvalue,0,note.pitch.octave, false),
-        // note.getPitch)
-        // else:
-        // if measureSignature.containsKey(note.getPitch)
-        // note.pitch = measureSignature.get(note.getPitch)
-
     }
     
+    /**
+     * Creates a new Measure and applies the key signature to its chords.
+     * 
+     * @param keySignature
+     *            the corresponding key signature for the measure
+     * @param chordsAndRestsInMeasure
+     *            a list of the sound units (chords and rests) that compose the
+     *            measure. Must be non-empty.
+     * @param beginningBarLine
+     *            a String representing the beginning bar line. Should be "[|",
+     *            "|:", "[1", or "[2". A [1 can also appear midway through a
+     *            measure. In that case, the [1 is still stored as a
+     *            beginningBarLine but beginFirstAlternateEnding is set to a
+     *            nonzero int.
+     * @param endingBarLine
+     *            a String representing the ending bar line. Requires a valid
+     *            bar line (can be "|", "||", "|]", ":|").
+     */
     Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String beginningBarLine, String endingBarLine) {
-        this(keySignature, chordsAndRestsInMeasure, endingBarLine);
-        this.beginningBarLine = beginningBarLine;
-    }
-    
-    Measure(KeySignature keySignature, List<SoundUnit> chordsAndRestsInMeasure, String beginningBarLine, int beginFirstAlternateEnding, String endingBarLine) {
         this(keySignature, chordsAndRestsInMeasure, endingBarLine);
         this.beginningBarLine = beginningBarLine;
     }
@@ -141,40 +133,43 @@ public class Measure {
      * @return a list of Strings excluding the Strings that weren't matched.
      */
     List<String> applyLyrics(List<String> originalListOfStrings) {
-        
+
         List<String> lyrics = originalListOfStrings;
-        
-        Iterator soundUnitIterator = listOfSoundUnits.iterator();
-        Iterator syllablesIterator = lyrics.iterator();
-        
-        /* newStart represents from the position of the syllable that
-         * was not appended to a Chord yet. */ 
+
+        Iterator<SoundUnit> soundUnitIterator = listOfSoundUnits.iterator();
+        Iterator<String> syllablesIterator = lyrics.iterator();
+
+        // newStart represents from the position of the syllable that was not appended 
+        // to a Chord yet.
+
         int newStart = 0;
-        
-        while(soundUnitIterator.hasNext()) {
+
+        while (soundUnitIterator.hasNext()) {
             // Iterates over listOfSoundUnits
             SoundUnit current = (SoundUnit) soundUnitIterator.next();
-            
+
             // Apply the lyric only to chords
-            if( current instanceof Chord ){
-                
+            if (current instanceof Chord) {
+
                 // If there is a syllable to insert
-                if( syllablesIterator.hasNext() ) {
+                if (syllablesIterator.hasNext()) {
                     // Get the next syllable to apply
                     String syllable = (String) syllablesIterator.next();
                     newStart++;
-            
-                    /* If a barline appears, stops. The other syllables
-                     * will be put in the next measure */
-                    if( syllable.equals("|")) {
+
+                    
+                    // If a barline appears, stops. The other syllables will be put in the next
+                    // measure
+
+                    if (syllable.equals("|")) {
                         newStart++;
                         break;
 
-                    // Substitute stars with empty strings
-                    } else if( syllable.equals("*")) {
+                        // Substitute stars with empty strings
+                    } else if (syllable.equals("*")) {
                         syllable = "";
                     }
-                    
+
                     // Put the syllable in the chord
                     ((Chord) current).setSyllable(syllable);
                 }
@@ -182,24 +177,23 @@ public class Measure {
         }
         
         // If the next string is a |, then skip it
-        if( syllablesIterator.hasNext() ) {
+        if (syllablesIterator.hasNext()) {
             if (syllablesIterator.next().equals("|")) {
                 newStart++;
             }
         }
-        
-        if( newStart < originalListOfStrings.size() ) {
+
+        if (newStart < originalListOfStrings.size()) {
             return originalListOfStrings.subList(newStart, originalListOfStrings.size());
         }
-        
+
         else {
             return new ArrayList<String>();
         }
     }
-    
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder measureAsText = new StringBuilder();
         if (!beginningBarLine.isEmpty()) {
             measureAsText.append(beginningBarLine + " ");

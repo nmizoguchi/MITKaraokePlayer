@@ -323,11 +323,11 @@ public class ABCMusicParseListener implements ABCMusicListener {
                                     // triplets)
         int ticksPerBeat = leastCommonTick;
 
-        this.header = new ABCHeader(title, composer, beatsPerMinute,
+        ABCMusicParseListener.header = new ABCHeader(title, composer, beatsPerMinute,
                 bpmNoteLength, ticksPerBeat, whatNoteGetsTheBeat, beatsPerMeasure,
                 defaultNoteLength, key);
         
-        stack.push(this.header);
+        stack.push(ABCMusicParseListener.header);
     }
 
     @Override
