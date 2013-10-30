@@ -2,8 +2,7 @@
 
 package grammar;
 
-import org.antlr.v4.runtime.tree.*;
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 public interface ABCMusicListener extends ParseTreeListener {
 	void enterValid_text_with_number(ABCMusicParser.Valid_text_with_numberContext ctx);

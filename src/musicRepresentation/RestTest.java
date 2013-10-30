@@ -1,6 +1,6 @@
 package musicRepresentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class RestTest {
 		new Rest();
 	}
 	
-	// Tests the second constructor of the Rest class (one arguments)
+	// Tests the second constructor of the Rest class (one argument)
 	@Test
 	public void testRest_OneArg() {
 		new Rest(2);
@@ -19,8 +19,8 @@ public class RestTest {
 	
 	// Tests the getDurationMultiplier method
 	@Test
-	public void testGetDurationMultiplier() {
-		Rest rest = new Rest(2);
-		assertEquals(rest.getDurationMultiplier(), 2, 0.000001);
-	}
+    public void testGetDurationMultiplier() {
+        Rest rest = new Rest(2);
+        assertEquals(rest.getDurationMultiplier(), 2, 0.000001);
+    }
 }

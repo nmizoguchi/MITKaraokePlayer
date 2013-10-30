@@ -5,7 +5,7 @@ import sound.Pitch;
 /**
  * The Note class is composed of a Pitch object and a durationMultiplier
  * (defaults to 1). Note is mutable. The information stored in Note will be used
- * to later generate PreMidiNotes
+ * to later generate PreMidiNotes.
  * 
  * @author Eric
  * 

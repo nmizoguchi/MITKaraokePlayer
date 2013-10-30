@@ -48,9 +48,9 @@ public class Rest implements SoundUnit{
         return this.durationMultiplier == that.durationMultiplier;
     }
 	
-	@Override
-	public String toString() {
-	    String s = "z"+this.durationMultiplier;
-	    return s;
-	}
+    @Override
+    public String toString() {
+        String s = "z" + this.durationMultiplier;
+        return s;
+    }
 }

@@ -1,6 +1,6 @@
 package musicRepresentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -22,23 +22,22 @@ public class MidiNoteRepresentationTest {
         int numTicks = 10000;
         int startTick = 0;
         Pitch pitch = new Pitch('A');
-    
-        MidiNoteRepresentation midiNote =
-                new MidiNoteRepresentation(pitch, startTick, numTicks);
-        
-        assertEquals(numTicks,midiNote.getNumTicks());
-        assertEquals(startTick,midiNote.getStartTick());
-        assertEquals(true,pitch.equals(midiNote.getPitch()));
+
+        MidiNoteRepresentation midiNote = new MidiNoteRepresentation(pitch, startTick, numTicks);
+
+        assertEquals(numTicks, midiNote.getNumTicks());
+        assertEquals(startTick, midiNote.getStartTick());
+        assertEquals(true, pitch.equals(midiNote.getPitch()));
 
         numTicks = 0;
         startTick = 10000;
         pitch = new Pitch('A').octaveTranspose(3).accidentalTranspose(4);
-        
+
         midiNote = new MidiNoteRepresentation(pitch, startTick, numTicks);
-        
-        assertEquals(numTicks,midiNote.getNumTicks());
-        assertEquals(startTick,midiNote.getStartTick());
-        assertEquals(true,pitch.equals(midiNote.getPitch()));        
+
+        assertEquals(numTicks, midiNote.getNumTicks());
+        assertEquals(startTick, midiNote.getStartTick());
+        assertEquals(true, pitch.equals(midiNote.getPitch()));      
     }
     
     /**
@@ -61,11 +60,11 @@ public class MidiNoteRepresentationTest {
         Pitch tempPitch = null;
         tempPitch = midiNote.getPitch();
         tempPitch.octaveTranspose(999);
-        
+
         assertEquals(false, tempA == midiNote.getNumTicks());
-        assertEquals(numTicks,midiNote.getNumTicks());
-        assertEquals(startTick,midiNote.getStartTick());
-        assertEquals(true,tempPitch.equals(midiNote.getPitch()));
+        assertEquals(numTicks, midiNote.getNumTicks());
+        assertEquals(startTick, midiNote.getStartTick());
+        assertEquals(true, tempPitch.equals(midiNote.getPitch()));
     }
 
 }

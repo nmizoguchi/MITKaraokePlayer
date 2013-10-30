@@ -22,8 +22,6 @@ public class SequencerInformationTest {
      */
     @Test
     public void testSequencerInformation() {
-        int bitsPerMinute = 100, ticksPerBeat = 12;
-        
         List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
         midiNotes.add(new MidiNoteRepresentation(new Pitch('A'), 1, 123));
         midiNotes.add(new MidiNoteRepresentation(new Pitch('A'), 1, 123));
@@ -39,6 +37,7 @@ public class SequencerInformationTest {
         syllables.add(new Syllable("mess", 20));
         
         SequencerInformation seqInfo = new SequencerInformation("Voice name", midiNotes, syllables);
+        assertEquals(true, seqInfo.equals(seqInfo));
     }
     
     /**
@@ -46,8 +45,6 @@ public class SequencerInformationTest {
      */
     @Test
     public void testGetters() {
-        int bitsPerMinute = 100, ticksPerBeat = 12;
-        
         List<MidiNoteRepresentation> midiNotes = new ArrayList<MidiNoteRepresentation>();
         midiNotes.add(new MidiNoteRepresentation(new Pitch('A'), 1, 123));
         midiNotes.add(new MidiNoteRepresentation(new Pitch('A'), 1, 123));
