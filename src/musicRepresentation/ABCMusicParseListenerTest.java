@@ -96,7 +96,7 @@ public class ABCMusicParseListenerTest {
         input = input+"K:D\n";
         input = input+"V:input1\n";
         input = input+"c c c c | c c c c | c c c c | c c c c| c c c c | c c c c |\n";
-        input = input+"w:a-ma--zing grace_ hot-dog | pay*4~(four) one two | three four\n";
+        input = input+"w:a-ma--zing grace_ hot\\-dog | pay*4~(four) one two | three four\n";
         input = input+"V:input2\n";
         input = input+"C c/2 B3/4 c''2 | d,, [A/4B/2] [ab] z z/4 z2 |\n";        
  
@@ -128,7 +128,7 @@ public class ABCMusicParseListenerTest {
                 lyrics = lyrics+((Chord)s).getSyllable()+"//";
             }
         }
-        assertEquals("grace//_ //hot-//dog //", lyrics);
+        assertEquals("grace//_ //hot-dog ////", lyrics);
         
      // Third measure
         it = measures.get(2).getListOfSoundUnits().iterator();

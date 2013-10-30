@@ -13,20 +13,13 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
 import org.junit.Test;
+
 /**
- * This is the test suite for Lexer. You should expand this file with more
- * unit tests to make sure your Lexer works correctly.
+ * This is the test suite for Lexer.
+ * Similar tests can be found at ABCMusicLexerTest.java, from the grammar package.
  */
 public class LexerTest {
 
-//    @Test
-//    public void testOneToken() {
-//        String input = readFile("sample_abc/sample1.abc");
-//
-//        // Test lexer
-//        verifyLexer(input, new String[] {"+"});
-//    }
-    
     @Test
     public void lexerTest_header() {
         // Header
@@ -104,6 +97,8 @@ public class LexerTest {
                 buffer = buffer.concat(stringLine.concat("\n"));
                 stringLine = br.readLine();
             }
+            
+            br.close();
 
             return buffer;
         }

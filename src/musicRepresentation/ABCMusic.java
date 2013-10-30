@@ -15,7 +15,6 @@ import java.util.Map;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -77,11 +76,6 @@ public class ABCMusic {
      * @return an instance of SequencerInformation
      */
     public List<SequencerInformation> constructSequencerInformation() {
-
-        // Build beatsPerMinute in the default length note:
-        int bpmDefaultLength;
-        bpmDefaultLength = (int) ((header.getBpmNoteLength() / header
-                .getDefaultNoteLength()) * header.getBeatsPerMinute());
         /*
          * Get all notes and syllables from ABCMusic as MidiNoteRep and
          * Syllables.
@@ -213,6 +207,8 @@ public class ABCMusic {
             buffer = buffer.concat(stringLine.concat("\n"));
             stringLine = br.readLine();
         }
+        
+        br.close();
 
         return buffer;
     }
