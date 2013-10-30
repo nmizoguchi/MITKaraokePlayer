@@ -166,7 +166,6 @@ public class Measure {
                     // measure
 
                     if (syllable.equals("|")) {
-                        newStart++;
                         break;
 
                     // Substitute stars with empty strings
