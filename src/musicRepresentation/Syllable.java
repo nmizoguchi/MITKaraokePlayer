@@ -8,8 +8,8 @@ package musicRepresentation;
  * 
  */
 public class Syllable {
-    private int startTick;
-    private String syllable;
+    private final int startTick;
+    private final String syllable;
 
     /**
      * Creates an instance of Syllable

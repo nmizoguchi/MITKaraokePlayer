@@ -11,9 +11,9 @@ import java.util.List;
  * 
  */
 public class SequencerInformation {
-    private String voice;
-    private List<MidiNoteRepresentation> midiNotes;
-    private List<Syllable> syllables;
+    private final String voice;
+    private final List<MidiNoteRepresentation> midiNotes;
+    private final List<Syllable> syllables;
 
     /**
      * Constructor class.

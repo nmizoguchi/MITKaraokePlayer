@@ -8,9 +8,9 @@ import sound.Pitch;
  * 
  */
 public class MidiNoteRepresentation {
-    private Pitch pitch;
-    private int startTick;
-    private int numTicks;
+    private final Pitch pitch;
+    private final int startTick;
+    private final int numTicks;
 
     /**
      * Creates a new instance of MidiNoteRepresentation.
