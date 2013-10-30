@@ -33,8 +33,48 @@ import org.junit.Test;
  */
 public class ABCMusicTest {
 
+    @Test(expected=RuntimeException.class)
+    public void testABCMusic_missingHeaderField() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/test_bad1.abc");
+    }
+    
+    @Test(expected=RuntimeException.class)
+    public void testABCMusic_wrongHeaderInfo() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/test_bad2.abc");
+    }
+    
+    @Test(expected=RuntimeException.class)
+    public void testABCMusic_InvalidNotes() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/test_bad3.abc");
+    }
+    
+    @Test(expected=RuntimeException.class)
+    public void testABCMusic_malformedRepetition() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/test_bad4.abc");
+    }
+    
+    @Test(expected=RuntimeException.class)
+    public void testABCMusic_nonStandardPositions() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/test_bad5.abc");
+    }
+    
     @Test
-    public void testConstructSequencerInformation_BPMTransformation() throws IOException {
+    public void testABCMusic_acceptOptionalHeaderFields() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/payphone.abc");
+    }
+    
+    @Test
+    public void testABCMusic_acceptMultipleVoices() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/summer_nights.abc");
+    }
+    
+    @Test
+    public void testABCMusic_acceptRepeats() throws IOException {
+        ABCMusic music = new ABCMusic("sample_abc/street_fighter_intro.abc");
+    }
+    
+    @Test
+    public void testABCMusic_complexMusic() throws IOException {
         ABCMusic music = new ABCMusic("sample_abc/fur_elise.abc");
     }
 }
