@@ -4,9 +4,8 @@ package grammar;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterValid_text_with_number(ABCMusicParser.Valid_text_with_numberContext ctx) { }
